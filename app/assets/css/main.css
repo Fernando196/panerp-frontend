@@ -1,0 +1,157 @@
+/* assets/css/main.css */
+@import 'tailwindcss';
+
+@theme {
+  /* Primario — Teal (agua limpia, frescura) */
+  --color-primary-light: #f0fdfa;
+  --color-primary: #007b6c;
+  --color-primary-dark: #0f766e;
+  --color-primary-darker: #134e4a;
+
+  /* Secundario — Violet (lavanda, ropa fresca) */
+  --color-secondary-light: #f5f3ff;
+  --color-secondary: #7c3aed;
+  --color-secondary-dark: #6d28d9;
+  --color-secondary-darker: #4c1d95;
+
+  --color-surface: #ffffff;
+  --color-surface-hover: oklch(0.985 0.005 240);
+
+  /* Background */
+  --color-menu-bg: #f3f3f3;
+  --color-subtle-bg: oklch(0.975 0.005 240);
+  --color-content-bg: oklch(0.995 0.003 240);
+
+  --color-text: oklch(0.22 0.02 250);
+  --color-text-subtle: oklch(0.62 0.012 250);
+  --color-muted: oklch(0.48 0.015 250);
+  --color-muted-bg: oklch(0.955 0.007 240);
+  --color-subtle: oklch(0.62 0.012 250);
+  --color-faint: oklch(0.75 0.01 250);
+
+  /* Border */
+  --color-border: oklch(0.92 0.008 240);
+  --color-border-strong: oklch(0.86 0.01 240);
+
+  /* Acento — Orange (calidez, acción) */
+  --color-accent-light: #fff7ed;
+  --color-accent: #f97316;
+  --color-accent-dark: #ea580c;
+  --color-accent-darker: #9a3412;
+
+  --color-info: oklch(0.42 0.16 230);
+  --color-info-bg: oklch(0.96 0.03 230);
+  --color-success: oklch(0.42 0.13 155);
+  --color-success-bg: oklch(0.58 0.14 155);
+  --color-warning: oklch(0.5 0.13 60);
+  --color-warning-bg: oklch(0.97 0.04 80);
+  --color-error: oklch(0.58 0.2 25);
+  --color-error-bg: oklch(0.96 0.03 40);
+  --color-error-text: oklch(0.48 0.19 25);
+  --color-error-soft: oklch(0.97 0.03 25);
+
+  /* 📦 Estados de pedidos */
+  --color-status-in-process: oklch(0.42 0.16 230);
+  --color-status-in-process-bg: oklch(0.96 0.03 230);
+  --color-status-pending: oklch(0.5 0.13 60);
+  --color-status-pending-bg: oklch(0.97 0.04 80);
+  --color-status-ready: var(--color-primary);
+  --color-status-ready-bg: var(--color-primary-light);
+  --color-status-canceled: oklch(0.5 0.16 40);
+  --color-status-canceled-bg: oklch(0.96 0.03 40);
+  --color-status-completed: oklch(0.42 0.13 155);
+  --color-status-completed-bg: white;
+
+  /* Neutros — Slate */
+  --color-neutral-50: #f8fafc;
+  --color-neutral-100: #e2e8f0;
+  --color-neutral-400: #94a3b8;
+  --color-neutral-700: #334155;
+  --color-neutral-900: #0f172a;
+
+  --color-background: #f3f3f3;
+
+  --spacing-safe-bottom: env(safe-area-inset-bottom);
+
+  --shadow-xs: 0 1px 2px oklch(0.2 0.02 250 / 0.04);
+  --shadow-sm: 0 1px 3px oklch(0.2 0.02 250 / 0.06), 0 1px 2px oklch(0.2 0.02 250 / 0.04);
+  --shadow-md: 0 4px 12px oklch(0.2 0.02 250 / 0.06), 0 2px 4px oklch(0.2 0.02 250 / 0.04);
+  --shadow-lg: 0 12px 32px oklch(0.2 0.02 250 / 0.1), 0 4px 8px oklch(0.2 0.02 250 / 0.05);
+  --shadow-primary: 0 0 0 3px var(--color-primary-light);
+  --shadow-soft: 0 0 0 3px var(--primary-soft);
+
+  --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --transition-border: border-color 0.1s, box-shadow 0.1s;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-feature-settings: 'cv11', 'ss01';
+  -webkit-font-smooth: antialiased;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Buttons */
+.btn {
+  @apply border-border bg-surface text-text inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-solid p-[7px_12px] text-[13px] font-medium text-nowrap shadow-xs;
+}
+.btn:hover {
+  @apply bg-surface-hover border-border-strong;
+}
+.btn .ico {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+}
+.btn-primary {
+  @apply bg-primary border-primary hover:bg-primary-dark active:bg-primary-darker focus:ring-primary cursor-pointer text-white;
+}
+.btn-sm {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+.btn-ghost {
+  @apply border-transparent bg-transparent shadow-none;
+}
+
+.badge {
+  @apply inline-flex items-center gap-1.25 rounded-full border border-transparent p-[2px_8px] text-[11.5px] font-medium;
+}
+.badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: currentColor;
+  opacity: 0.9;
+}
+.badge-pending {
+  @apply bg-status-pending-bg text-status-pending;
+}
+.badge-in-process {
+  @apply bg-status-in-process-bg text-status-in-process;
+}
+.badge-ready {
+  @apply bg-status-ready-bg text-status-ready;
+}
+.badge-canceled {
+  @apply bg-status-canceled-bg text-status-canceled;
+}
+.badge-completed {
+  @apply bg-status-completed-bg text-status-completed border-status-completed;
+}
+
+/* Inputs */
+
+.input-label-muted {
+  @apply text-muted truncate text-[12.5px] font-medium whitespace-nowrap;
+}
+.input-content {
+  @apply border-border focus:border-primary shadow-soft mt-2 w-full rounded-sm border bg-white px-2 py-2 outline-none;
+}
+.input-content.input-disabled {
+  @apply bg-muted-bg text-subtle cursor-not-allowed outline-none;
+}
