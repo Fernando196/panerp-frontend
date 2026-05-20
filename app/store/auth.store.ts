@@ -21,7 +21,7 @@ export const useAuthStore = defineStore('auth', () => {
   const isProduccion = computed(() => rol.value === 'produccion')
   const isContabilidad = computed(() => rol.value === 'contabilidad')
 
-  function authHeaders() {
+  function authHeaders(): Record<string, string> {
     return token.value ? { Authorization: `Bearer ${token.value}` } : {}
   }
 
