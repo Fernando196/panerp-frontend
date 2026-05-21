@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Eye, EyeOff, Loader2, LogIn, WifiOff, Wheat } from 'lucide-vue-next'
+import { Eye, EyeOff, Loader2, LogIn, WifiOff, Wheat, EyeIcon } from 'lucide-vue-next'
+import InputWrapper from '~/components/common/InputWrapper.vue'
 import { useAuthStore } from '~/store/auth.store'
 
 definePageMeta({ layout: 'auth' })
@@ -63,21 +64,21 @@ async function handleSubmit() {
       <!-- Logo -->
       <div class="mb-8 flex flex-col items-center gap-3">
         <div
-          class="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary shadow-lg shadow-primary/30"
+          class="flex h-14 w-14 items-center justify-center text-white rounded-2xl bg-primary shadow-lg shadow-primary/30"
         >
-          <Wheat :size="28" class="text-white" />
+          <Wheat :size="28" class="" />
         </div>
         <div class="text-center">
-          <h1 class="text-2xl font-bold tracking-tight text-white">PanERP</h1>
+          <h1 class="text-2xl font-bold tracking-tight ">Panaderia Osuka</h1>
           <p class="mt-0.5 text-sm text-slate-400">Sistema de gestión para panadería</p>
         </div>
       </div>
 
       <!-- Card -->
       <div
-        class="w-full max-w-sm rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-2xl shadow-black/50"
+        class="w-full max-w-sm rounded-2xl border border-border p-6 shadow-md shadow-black/20"
       >
-        <h2 class="mb-5 text-[15px] font-semibold text-white">Iniciar sesión</h2>
+        <h2 class="mb-5 text-[15px] font-semibold ">Iniciar sesión</h2>
 
         <!-- Error message -->
         <Transition name="fade">
@@ -92,47 +93,26 @@ async function handleSubmit() {
 
         <form class="space-y-4" @submit.prevent="handleSubmit">
           <!-- Email -->
-          <div>
-            <label class="mb-1.5 block text-[12.5px] font-medium text-slate-400">
-              Correo electrónico
-            </label>
-            <input
-              v-model="form.email"
-              type="email"
-              required
-              autocomplete="email"
-              placeholder="correo@panaderia.mx"
-              :disabled="loading"
-              class="w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2.5 text-[13.5px] text-white placeholder:text-slate-500 outline-none transition-colors focus:border-primary focus:ring-1 focus:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-50"
-            />
-          </div>
+          <InputWrapper
+            id='login-email'
+            v-model="form.email"
+            label="Correo electronio o usuario"
+            type="text"
+            placeholder="admin"
+          />
 
           <!-- Password -->
-          <div>
-            <label class="mb-1.5 block text-[12.5px] font-medium text-slate-400">
-              Contraseña
-            </label>
-            <div class="relative">
-              <input
-                v-model="form.password"
-                :type="showPassword ? 'text' : 'password'"
-                required
-                autocomplete="current-password"
-                placeholder="••••••••"
-                :disabled="loading"
-                class="w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2.5 pr-10 text-[13.5px] text-white placeholder:text-slate-500 outline-none transition-colors focus:border-primary focus:ring-1 focus:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-50"
-              />
-              <button
-                type="button"
-                tabindex="-1"
-                class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 transition-colors hover:text-slate-300"
-                @click="showPassword = !showPassword"
-              >
-                <EyeOff v-if="showPassword" :size="15" />
-                <Eye v-else :size="15" />
-              </button>
-            </div>
-          </div>
+          <InputWrapper
+            id='login-password'
+            v-model="form.password"
+            label="Contraseña"
+            placeholder="********"
+            type="text"
+          >
+            <template #content-right>
+              <Eye :size="20" />
+            </template>
+          </InputWrapper>
 
           <!-- Submit -->
           <button
