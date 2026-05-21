@@ -40,7 +40,7 @@
         autocomplete="off"
       />
 
-      <div v-if="slots['content-right']">
+      <div v-if="slots['content-right']" class="ml-1">
         <slot name="content-right"/>
       </div>
 

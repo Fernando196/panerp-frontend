@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Eye, EyeOff, Loader2, LogIn, WifiOff, Wheat, EyeIcon } from 'lucide-vue-next'
+import { Eye, Loader2, LogIn, WifiOff, Wheat, EyeOff } from 'lucide-vue-next'
 import InputWrapper from '~/components/common/InputWrapper.vue'
 import { useAuthStore } from '~/store/auth.store'
 
@@ -107,10 +107,11 @@ async function handleSubmit() {
             v-model="form.password"
             label="Contraseña"
             placeholder="********"
-            type="text"
+            :type=" showPassword ? 'text' : 'password' "
           >
             <template #content-right>
-              <Eye :size="20" />
+              <Eye v-if="showPassword" :size="20" @click="showPassword = !showPassword" />
+              <EyeOff v-else :size="20" @click="showPassword = !showPassword" />
             </template>
           </InputWrapper>
 
@@ -118,7 +119,7 @@ async function handleSubmit() {
           <button
             type="submit"
             :disabled="loading || isOffline"
-            class="btn btn-primary mt-1 w-full justify-center py-2.5 text-[13.5px] disabled:cursor-not-allowed disabled:opacity-50"
+            class="btn btn-primary mt-1 w-full justify-center py-2.5 text-[13.5px]"
           >
             <Loader2 v-if="loading" :size="14" class="animate-spin" />
             <LogIn v-else :size="14" />
