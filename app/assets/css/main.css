@@ -143,15 +143,3 @@ body {
 .badge-completed {
   @apply bg-status-completed-bg text-status-completed border-status-completed;
 }
-
-/* Inputs */
-
-.input-label-muted {
-  @apply text-muted truncate text-[12.5px] font-medium whitespace-nowrap;
-}
-.input-content {
-  @apply border-border focus:border-primary shadow-soft mt-2 w-full rounded-sm border bg-white px-2 py-2 outline-none;
-}
-.input-content.input-disabled {
-  @apply bg-muted-bg text-subtle cursor-not-allowed outline-none;
-}
