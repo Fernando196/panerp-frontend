@@ -10,26 +10,22 @@ export interface AuthUser {
 
 export const useAuthStore = defineStore('auth', () => {
   const config = useRuntimeConfig()
+  const { $api } = useNuxtApp();
 
   const token = useLocalStorage<string | null>('pan-erp-token', null)
   const user = useLocalStorage<AuthUser | null>('pan-erp-user', null)
 
   const isAuthenticated = computed(() => !!token.value)
   const rol = computed(() => user.value?.rol?.nombre ?? '')
-  const isAdmin = computed(() => rol.value === 'administrador')
-  const isRepartidor = computed(() => rol.value === 'repartidor')
-  const isProduccion = computed(() => rol.value === 'produccion')
-  const isContabilidad = computed(() => rol.value === 'contabilidad')
 
   function authHeaders(): Record<string, string> {
     return token.value ? { Authorization: `Bearer ${token.value}` } : {}
   }
 
   async function login(email: string, password: string): Promise<void> {
-    const res = await $fetch<{ data: { token: string; usuario: AuthUser } }>(
+    const res = await $api<{ data: { token: string; usuario: AuthUser } }>(
       '/api/v1/auth/login',
       {
-        baseURL: config.public.apiBase as string,
         method: 'POST',
         body: { email, password },
       },
@@ -72,10 +68,6 @@ export const useAuthStore = defineStore('auth', () => {
     user,
     isAuthenticated,
     rol,
-    isAdmin,
-    isRepartidor,
-    isProduccion,
-    isContabilidad,
     authHeaders,
     login,
     logout,
