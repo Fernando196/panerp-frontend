@@ -3,8 +3,6 @@ import { Plus, AlertTriangle, X } from 'lucide-vue-next'
 import { useInventarioStore } from '~/store/inventario.store'
 import { useAuthStore } from '~/store/auth.store'
 
-definePageMeta({ layout: 'pan-erp', middleware: 'auth' })
-
 const store = useInventarioStore()
 const auth = useAuthStore()
 
