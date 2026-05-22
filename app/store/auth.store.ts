@@ -24,7 +24,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function login(email: string, password: string): Promise<void> {
     const res = await $api<{ data: { token: string; usuario: AuthUser } }>(
-      '/api/v1/auth/login',
+      '/auth/login',
       {
         method: 'POST',
         body: { email, password },
