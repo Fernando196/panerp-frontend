@@ -81,7 +81,7 @@ watch(
 </script>
 
 <template>
-  <div class="relative flex h-screen flex-col overflow-hidden bg-slate-950 text-white antialiased">
+  <div class="relative flex h-screen flex-col overflow-hidden antialiased">
     <!-- Offline banner -->
     <Transition name="slide">
       <div
