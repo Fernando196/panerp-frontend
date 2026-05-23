@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { defineStore, skipHydrate } from 'pinia'
 import { useLocalStorage } from '@vueuse/core'
 
 export interface AuthUser {
@@ -12,8 +12,9 @@ export const useAuthStore = defineStore('auth', () => {
   const config = useRuntimeConfig()
   const { $api } = useNuxtApp();
 
-  const token = useLocalStorage<string | null>('pan-erp-token', null)
-  const user = useLocalStorage<AuthUser | null>('pan-erp-user', null)
+  const userLocal = useLocalStorage<string | null>('pan-erp-user',null)
+  const token = useLocalStorage<string | null>('pan-erp-token', null);
+  const user = ref<AuthUser | null>(null)
 
   const isAuthenticated = computed(() => !!token.value)
   const rol = computed(() => user.value?.rol?.nombre ?? '')
@@ -31,7 +32,7 @@ export const useAuthStore = defineStore('auth', () => {
       },
     )
     token.value = res.data.token
-    user.value = res.data.usuario
+    userLocal.value = JSON.stringify(res.data.usuario);
   }
 
   async function logout(): Promise<void> {
@@ -64,7 +65,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   return {
-    token,
+    token: skipHydrate(token),
     user,
     isAuthenticated,
     rol,
