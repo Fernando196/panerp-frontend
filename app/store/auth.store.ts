@@ -1,77 +1,47 @@
-import { defineStore, skipHydrate } from 'pinia'
-import { useLocalStorage } from '@vueuse/core'
-
-export interface AuthUser {
-  id: string
-  nombre: string
-  email: string
-  rol: { id: string; nombre: string }
-}
+import { defineStore } from 'pinia'
+import type { IAuthUser } from '~/types/auth/auth.type';
 
 export const useAuthStore = defineStore('auth', () => {
-  const config = useRuntimeConfig()
-  const { $api } = useNuxtApp();
+  const userCookie = useCookie<IAuthUser | null>('pan-erp-user',{
+    maxAge: 60 * 60 * 24 * 30, // 30 dias
+    sameSite: 'lax',
+  })
+  const token = useCookie<string | null>('pan-erp-token',{
+    maxAge: 60 * 60 * 24 * 30, // 30 dias
+    sameSite: 'lax',
+  });
 
-  const userLocal = useLocalStorage<string | null>('pan-erp-user',null)
-  const token = useLocalStorage<string | null>('pan-erp-token', null);
-  const user = ref<AuthUser | null>(null)
-
+  const user = ref<IAuthUser | null>(userCookie.value || null);
   const isAuthenticated = computed(() => !!token.value)
   const rol = computed(() => user.value?.rol?.nombre ?? '')
 
-  function authHeaders(): Record<string, string> {
-    return token.value ? { Authorization: `Bearer ${token.value}` } : {}
+  function setToken(newToken: string){
+    token.value = newToken;
   }
 
-  async function login(email: string, password: string): Promise<void> {
-    const res = await $api<{ data: { token: string; usuario: AuthUser } }>(
-      '/auth/login',
-      {
-        method: 'POST',
-        body: { email, password },
-      },
-    )
-    token.value = res.data.token
-    userLocal.value = JSON.stringify(res.data.usuario);
+  function setUser(newUser: IAuthUser){
+    user.value = newUser;
+    userCookie.value = newUser;
   }
 
-  async function logout(): Promise<void> {
-    try {
-      if (token.value) {
-        await $fetch('/api/v1/auth/logout', {
-          baseURL: config.public.apiBase as string,
-          method: 'POST',
-          headers: authHeaders(),
-        })
-      }
-    } finally {
-      token.value = null
-      user.value = null
-    }
+  function logout(){
+    cleanAuth();
+    navigateTo('/login');
   }
 
-  async function refreshMe(): Promise<void> {
-    if (!token.value) return
-    try {
-      const res = await $fetch<{ data: AuthUser }>('/api/v1/auth/me', {
-        baseURL: config.public.apiBase as string,
-        headers: authHeaders(),
-      })
-      user.value = res.data
-    } catch {
-      token.value = null
-      user.value = null
-    }
+  function cleanAuth(){
+    token.value = null;
+    user.value = null;
+    userCookie.value = null;
   }
 
   return {
-    token: skipHydrate(token),
+    token,
     user,
     isAuthenticated,
     rol,
-    authHeaders,
-    login,
-    logout,
-    refreshMe,
+    setUser,
+    setToken,
+    logout
   }
 })

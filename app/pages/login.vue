@@ -34,6 +34,7 @@ async function handleSubmit() {
     await auth.login(form.email, form.password)
     await navigateTo(roleHome(auth.rol))
   } catch (e: unknown) {
+    console.log(e);
     error.value = e as string;
     if (e && typeof e === 'object' && 'data' in e) {
       const apiErr = e as { data?: { message?: string } }
