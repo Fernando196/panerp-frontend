@@ -1,3 +1,28 @@
+<script setup lang="ts">
+  import { Transition } from 'vue'
+  import type { ICredentials } from '~/types/auth/auth.type'
+  import InputWrapper from '../common/InputWrapper.vue'
+  import { Eye, EyeOff, Loader2, LogIn } from 'lucide-vue-next'
+
+  interface Props {
+    error: string
+    isOffline: boolean
+    isLoading: boolean
+  }
+  defineProps<Props>()
+  const showPassword = ref<boolean>(false)
+  const form = ref<ICredentials>({
+    email: 'admin',
+    password: 'Admin1234!',
+  })
+
+  const emits = defineEmits<{
+    onSubmit: [form: ICredentials]
+  }>()
+
+  const handleSubmit = () => emits('onSubmit', form.value)
+</script>
+
 <template>
   <div class="border-border w-full max-w-sm rounded-2xl border p-6 shadow-md shadow-black/20">
     <h2 class="mb-5 text-[15px] font-semibold">Iniciar sesión</h2>
@@ -40,12 +65,12 @@
       <!-- Submit -->
       <button
         type="submit"
-        :disabled="loading || isOffline"
+        :disabled="isLoading || isOffline"
         class="btn btn-primary mt-1 w-full justify-center py-2.5 text-[13.5px]"
       >
-        <Loader2 v-if="loading" :size="14" class="animate-spin" />
+        <Loader2 v-if="isLoading" :size="14" class="animate-spin" />
         <LogIn v-else :size="14" />
-        {{ loading ? 'Ingresando...' : 'Iniciar sesión' }}
+        {{ isLoading ? 'Ingresando...' : 'Iniciar sesión' }}
       </button>
     </form>
   </div>
