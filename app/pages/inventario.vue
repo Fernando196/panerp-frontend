@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { Plus, AlertTriangle, X } from 'lucide-vue-next'
-import { useInventarioStore } from '~/store/inventario.store'
-import { useAuthStore } from '~/store/auth.store'
+  import { Plus, AlertTriangle, X } from 'lucide-vue-next'
+  import { useInventarioStore } from '~/store/inventario.store'
+  import { useAuthStore } from '~/store/auth.store'
 
-const store = useInventarioStore()
-const auth = useAuthStore()
+  const store = useInventarioStore()
+  const auth = useAuthStore()
 
-const { search, categoria, soloStockBajo, hayFiltros, clearFiltros } = useInventarioFiltros()
-const { errorMsg, handleCreate, handleEdit, handleEntrada, handleAjuste, handleDelete } =
-  useInventarioAcciones()
+  const { search, categoria, soloStockBajo, hayFiltros, clearFiltros } = useInventarioFiltros()
+  const { errorMsg, handleCreate, handleEdit, handleEntrada, handleAjuste, handleDelete } =
+    useInventarioAcciones()
 
-await store.fetch()
+  await store.fetch()
 </script>
 
 <template>
@@ -37,7 +37,7 @@ await store.fetch()
     <!-- Error global -->
     <div
       v-if="errorMsg"
-      class="flex items-center gap-2 rounded-lg border border-error/30 bg-error/10 px-4 py-3 text-[13px] text-error"
+      class="border-error/30 bg-error/10 text-error flex items-center gap-2 rounded-lg border px-4 py-3 text-[13px]"
     >
       <AlertTriangle :size="14" />
       {{ errorMsg }}
@@ -63,7 +63,6 @@ await store.fetch()
       :items="store.items"
       :loading="store.loading"
       :hay-filtros="hayFiltros"
-      :is-admin="auth.isAdmin"
       @entrada="handleEntrada"
       @ajuste="handleAjuste"
       @editar="handleEdit"

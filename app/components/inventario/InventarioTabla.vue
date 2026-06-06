@@ -1,47 +1,46 @@
 <script setup lang="ts">
-import {
-  Package,
-  RefreshCcw,
-  ArrowDownToLine,
-  SlidersHorizontal,
-  Pencil,
-  Trash2,
-} from 'lucide-vue-next'
-import type { IMateriaPrima } from '~/types/inventario.type'
-import { formatNumber, formatMXN, formatFecha } from '~/utils/formatters'
+  import {
+    Package,
+    RefreshCcw,
+    ArrowDownToLine,
+    SlidersHorizontal,
+    Pencil,
+    Trash2,
+  } from 'lucide-vue-next'
+  import type { IMateriaPrima } from '~/types/inventario.type'
+  import { formatNumber, formatMXN, formatFecha } from '~/utils/formatters'
 
-interface Props {
-  items: IMateriaPrima[]
-  loading: boolean
-  hayFiltros: boolean
-  isAdmin: boolean
-}
+  interface Props {
+    items: IMateriaPrima[]
+    loading: boolean
+    hayFiltros: boolean
+  }
 
-defineProps<Props>()
+  defineProps<Props>()
 
-const emit = defineEmits<{
-  entrada: [item: IMateriaPrima]
-  ajuste: [item: IMateriaPrima]
-  editar: [item: IMateriaPrima]
-  eliminar: [item: IMateriaPrima]
-}>()
+  const emit = defineEmits<{
+    entrada: [item: IMateriaPrima]
+    ajuste: [item: IMateriaPrima]
+    editar: [item: IMateriaPrima]
+    eliminar: [item: IMateriaPrima]
+  }>()
 
-function stockPct(item: IMateriaPrima): number {
-  const min = Number(item.stockMinimo)
-  if (!min) return 100
-  return Math.min(100, Math.round((Number(item.stockActual) / min) * 100))
-}
+  function stockPct(item: IMateriaPrima): number {
+    const min = Number(item.stockMinimo)
+    if (!min) return 100
+    return Math.min(100, Math.round((Number(item.stockActual) / min) * 100))
+  }
 
-function stockColor(item: IMateriaPrima): string {
-  const pct = stockPct(item)
-  if (pct <= 25) return 'bg-error'
-  if (pct <= 75) return 'bg-warning'
-  return 'bg-success'
-}
+  function stockColor(item: IMateriaPrima): string {
+    const pct = stockPct(item)
+    if (pct <= 25) return 'bg-error'
+    if (pct <= 75) return 'bg-warning'
+    return 'bg-success'
+  }
 
-function esBajoStock(item: IMateriaPrima): boolean {
-  return Number(item.stockActual) <= Number(item.stockMinimo)
-}
+  function esBajoStock(item: IMateriaPrima): boolean {
+    return Number(item.stockActual) <= Number(item.stockMinimo)
+  }
 </script>
 
 <template>
@@ -69,29 +68,53 @@ function esBajoStock(item: IMateriaPrima): boolean {
       <table class="w-full text-left">
         <thead>
           <tr class="border-b border-slate-800 bg-slate-900/50">
-            <th class="px-4 py-3 text-[11.5px] font-semibold uppercase tracking-wider text-slate-500">Nombre</th>
-            <th class="px-4 py-3 text-[11.5px] font-semibold uppercase tracking-wider text-slate-500">Categoría</th>
-            <th class="px-4 py-3 text-[11.5px] font-semibold uppercase tracking-wider text-slate-500">Stock</th>
-            <th class="px-4 py-3 text-[11.5px] font-semibold uppercase tracking-wider text-slate-500">Costo / u</th>
-            <th class="hidden px-4 py-3 text-[11.5px] font-semibold uppercase tracking-wider text-slate-500 md:table-cell">Ult. compra</th>
-            <th class="px-4 py-3 text-right text-[11.5px] font-semibold uppercase tracking-wider text-slate-500">Acciones</th>
+            <th
+              class="px-4 py-3 text-[11.5px] font-semibold tracking-wider text-slate-500 uppercase"
+            >
+              Nombre
+            </th>
+            <th
+              class="px-4 py-3 text-[11.5px] font-semibold tracking-wider text-slate-500 uppercase"
+            >
+              Categoría
+            </th>
+            <th
+              class="px-4 py-3 text-[11.5px] font-semibold tracking-wider text-slate-500 uppercase"
+            >
+              Stock
+            </th>
+            <th
+              class="px-4 py-3 text-[11.5px] font-semibold tracking-wider text-slate-500 uppercase"
+            >
+              Costo / u
+            </th>
+            <th
+              class="hidden px-4 py-3 text-[11.5px] font-semibold tracking-wider text-slate-500 uppercase md:table-cell"
+            >
+              Ult. compra
+            </th>
+            <th
+              class="px-4 py-3 text-right text-[11.5px] font-semibold tracking-wider text-slate-500 uppercase"
+            >
+              Acciones
+            </th>
           </tr>
         </thead>
         <tbody class="divide-y divide-slate-800/60">
-          <tr
-            v-for="item in items"
-            :key="item.id"
-            class="transition-colors hover:bg-slate-800/30"
-          >
+          <tr v-for="item in items" :key="item.id" class="transition-colors hover:bg-slate-800/30">
             <!-- Nombre -->
             <td class="px-4 py-3">
               <div class="flex items-center gap-2.5">
-                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-800">
+                <div
+                  class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-800"
+                >
                   <Package :size="14" class="text-slate-400" />
                 </div>
                 <div>
                   <p class="text-[13px] font-medium text-white">{{ item.nombre }}</p>
-                  <p v-if="item.lugarCompra" class="text-[11.5px] text-slate-500">{{ item.lugarCompra }}</p>
+                  <p v-if="item.lugarCompra" class="text-[11.5px] text-slate-500">
+                    {{ item.lugarCompra }}
+                  </p>
                 </div>
               </div>
             </td>
@@ -113,7 +136,9 @@ function esBajoStock(item: IMateriaPrima): boolean {
                 <div class="flex items-baseline justify-between gap-1">
                   <span class="text-[13px] font-medium text-white">
                     {{ formatNumber(item.stockActual) }}
-                    <span class="text-[11.5px] font-normal text-slate-400">{{ item.unidadPrincipal }}</span>
+                    <span class="text-[11.5px] font-normal text-slate-400">{{
+                      item.unidadPrincipal
+                    }}</span>
                   </span>
                   <span
                     class="text-[11px] font-medium"
@@ -139,14 +164,16 @@ function esBajoStock(item: IMateriaPrima): boolean {
 
             <!-- Última compra -->
             <td class="hidden px-4 py-3 md:table-cell">
-              <span class="text-[13px] text-slate-400">{{ formatFecha(item.fechaUltimaCompra) }}</span>
+              <span class="text-[13px] text-slate-400">{{
+                formatFecha(item.fechaUltimaCompra)
+              }}</span>
             </td>
 
             <!-- Acciones -->
             <td class="px-4 py-3">
               <div class="flex items-center justify-end gap-1">
                 <button
-                  class="flex h-7 w-7 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-success/10 hover:text-success"
+                  class="hover:bg-success/10 hover:text-success flex h-7 w-7 items-center justify-center rounded-lg text-slate-500 transition-colors"
                   title="Registrar entrada"
                   @click="emit('entrada', item)"
                 >
@@ -154,8 +181,7 @@ function esBajoStock(item: IMateriaPrima): boolean {
                 </button>
 
                 <button
-                  v-if="isAdmin"
-                  class="flex h-7 w-7 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-info/10 hover:text-info"
+                  class="hover:bg-info/10 hover:text-info flex h-7 w-7 items-center justify-center rounded-lg text-slate-500 transition-colors"
                   title="Ajustar stock"
                   @click="emit('ajuste', item)"
                 >
@@ -171,8 +197,7 @@ function esBajoStock(item: IMateriaPrima): boolean {
                 </button>
 
                 <button
-                  v-if="isAdmin"
-                  class="flex h-7 w-7 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-error/10 hover:text-error"
+                  class="hover:bg-error/10 hover:text-error flex h-7 w-7 items-center justify-center rounded-lg text-slate-500 transition-colors"
                   title="Eliminar"
                   @click="emit('eliminar', item)"
                 >
