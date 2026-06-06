@@ -9,7 +9,7 @@ export interface IMenuItem {
   label: string
   description?: string
   path: string
-  icon: Icons
+  icon: Component
   type: 'item' | 'group'
   children?: IMenuItem[]
 }

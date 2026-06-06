@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import { useMenuStore } from '~/store/menu.store'
-  import MapIcon from '../common/MapIcon/MapIcon.vue'
 
   const router = useRoute()
   const menuStore = useMenuStore()
@@ -10,7 +9,7 @@
 </script>
 <template>
   <aside
-    class="bg-subtle-bg border-border relative flex h-full w-full flex-col gap-1 border-r px-2 pt-5 text-black shadow-md"
+    class="bg-menu-bg border-border relative flex h-full w-full flex-col gap-1 border-r px-2 pt-5 text-black shadow-md"
   >
     <button v-for="item in menuItems" :key="'menu-item-' + item.id">
       <NuxtLink
@@ -23,7 +22,7 @@
         :to="item.path"
         @click="closeMenu?.()"
       >
-        <MapIcon :name="item.icon" class="w-6 xl:w-8" />
+        <component :is="item.icon" />
         {{ item.label }}
       </NuxtLink>
     </button>
