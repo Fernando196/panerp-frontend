@@ -2,81 +2,81 @@
 @import 'tailwindcss';
 
 @theme {
-  /* Primario — Miel / Ámbar (corteza de pan, miel de abeja) */
-  --color-primary-light: #fffbeb;
-  --color-primary: #d97706;
-  --color-primary-dark: #b45309;
-  --color-primary-darker: #92400e;
+  /* Primario — Miel / Ámbar suave */
+  --color-primary-light: #fffdf5;
+  --color-primary: #e8a020;
+  --color-primary-dark: #c98010;
+  --color-primary-darker: #a86208;
 
-  /* Secundario — Canela / Marrón cálido */
-  --color-secondary-light: #fdf2e9;
-  --color-secondary: #7c3a1a;
-  --color-secondary-dark: #6b2f12;
-  --color-secondary-darker: #4a1f0a;
+  /* Secundario — Canela / Latte */
+  --color-secondary-light: #fdf6f0;
+  --color-secondary: #b8845a;
+  --color-secondary-dark: #9a6d45;
+  --color-secondary-darker: #7a5232;
 
   --color-surface: #ffffff;
-  --color-surface-hover: #faf5ec;
+  --color-surface-hover: #fdf9f2;
 
-  /* Background — Crema, pergamino, trigo */
-  --color-menu-bg: #f0e8d8;
-  --color-subtle-bg: #f7f0e6;
-  --color-content-bg: #fdfaf5;
+  /* Background — Crema aireada */
+  --color-menu-bg: #f8f3ea;
+  --color-subtle-bg: #faf6ef;
+  --color-content-bg: #fefcf8;
 
-  --color-text: oklch(0.22 0.04 55);
-  --color-text-subtle: oklch(0.52 0.04 55);
-  --color-muted: oklch(0.45 0.04 55);
-  --color-muted-bg: #f0e8d8;
-  --color-subtle: oklch(0.52 0.04 55);
-  --color-faint: oklch(0.72 0.025 55);
+  --color-text: oklch(0.32 0.03 55);
+  --color-text-subtle: oklch(0.58 0.025 55);
+  --color-muted: oklch(0.66 0.02 55);
+  --color-muted-bg: #f3ede3;
+  --color-subtle: oklch(0.64 0.02 55);
+  --color-faint: oklch(0.80 0.012 55);
 
-  /* Border — Lino cálido */
-  --color-border: #e8ddd0;
-  --color-border-strong: #d4c5b0;
+  /* Border — Lino suave */
+  --color-border: #ede7dc;
+  --color-border-strong: #ddd4c5;
 
-  /* Acento — Terracota (horno, barro) */
-  --color-accent-light: #fff4ed;
-  --color-accent: #ea6c2d;
-  --color-accent-dark: #c2510d;
-  --color-accent-darker: #9a3c08;
+  /* Acento — Terracota suave */
+  --color-accent-light: #fff8f4;
+  --color-accent: #e8845a;
+  --color-accent-dark: #c86840;
+  --color-accent-darker: #a44f28;
 
-  --color-info: oklch(0.42 0.14 230);
-  --color-info-bg: oklch(0.96 0.03 230);
-  --color-success: oklch(0.42 0.13 145);
-  --color-success-bg: oklch(0.96 0.04 145);
-  --color-warning: oklch(0.5 0.13 60);
-  --color-warning-bg: oklch(0.97 0.04 80);
-  --color-error: oklch(0.55 0.2 25);
-  --color-error-bg: oklch(0.96 0.03 40);
-  --color-error-text: oklch(0.48 0.19 25);
-  --color-error-soft: oklch(0.97 0.03 25);
+  --color-info: oklch(0.50 0.10 230);
+  --color-info-bg: oklch(0.96 0.02 230);
+  --color-success: oklch(0.52 0.10 145);
+  --color-success-bg: oklch(0.96 0.03 145);
+  --color-warning: oklch(0.60 0.10 60);
+  --color-warning-bg: oklch(0.97 0.03 80);
+  --color-error: oklch(0.60 0.15 25);
+  --color-error-bg: oklch(0.97 0.02 40);
+  --color-error-text: oklch(0.52 0.14 25);
+  --color-error-soft: oklch(0.97 0.02 25);
 
   /* 📦 Estados de pedidos */
-  --color-status-in-process: oklch(0.42 0.14 230);
-  --color-status-in-process-bg: oklch(0.96 0.03 230);
-  --color-status-pending: oklch(0.5 0.13 60);
-  --color-status-pending-bg: oklch(0.97 0.04 80);
+  --color-status-in-process: oklch(0.50 0.10 230);
+  --color-status-in-process-bg: oklch(0.96 0.02 230);
+  --color-status-pending: oklch(0.60 0.10 60);
+  --color-status-pending-bg: oklch(0.97 0.03 80);
   --color-status-ready: var(--color-primary);
   --color-status-ready-bg: var(--color-primary-light);
-  --color-status-canceled: oklch(0.5 0.16 40);
-  --color-status-canceled-bg: oklch(0.96 0.03 40);
-  --color-status-completed: oklch(0.42 0.13 145);
+  --color-status-canceled: oklch(0.60 0.10 40);
+  --color-status-canceled-bg: oklch(0.97 0.02 40);
+  --color-status-completed: oklch(0.52 0.10 145);
   --color-status-completed-bg: white;
 
-  /* Neutros — Lino / Trigo cálido */
-  --color-neutral-50: #faf7f0;
-  --color-neutral-100: #ede4d4;
-  --color-neutral-400: #a89070;
-  --color-neutral-700: #4a3520;
-  --color-neutral-900: #1c1008;
+  /* Neutros — Arena cálida */
+  --color-neutral-50: #fdfaf5;
+  --color-neutral-100: #f2ebe0;
+  --color-neutral-400: #c0aa90;
+  --color-neutral-700: #7a6650;
+  --color-neutral-900: #3a2c1e;
 
-  --color-background: #f7f0e4;
+  --color-background: #faf5ec;
 
   --spacing-safe-bottom: env(safe-area-inset-bottom);
 
-  --shadow-xs: 0 1px 2px oklch(0.3 0.04 55 / 0.06);
-  --shadow-sm: 0 1px 3px oklch(0.3 0.04 55 / 0.08), 0 1px 2px oklch(0.3 0.04 55 / 0.05);
-  --shadow-md: 0 4px 12px oklch(0.3 0.04 55 / 0.08), 0 2px 4px oklch(0.3 0.04 55 / 0.05);
-  --shadow-lg: 0 12px 32px oklch(0.3 0.04 55 / 0.12), 0 4px 8px oklch(0.3 0.04 55 / 0.06);
+  --shadow-xs: 0 1px 2px oklch(0.4 0.03 55 / 0.05);
+  --shadow-sm: 0 1px 3px oklch(0.4 0.03 55 / 0.07), 0 1px 2px oklch(0.4 0.03 55 / 0.04);
+  --shadow-md: 0 4px 12px oklch(0.4 0.03 55 / 0.07), 0 2px 4px oklch(0.4 0.03 55 / 0.04);
+  --shadow-lg: 0 12px 32px oklch(0.4 0.03 55 / 0.10), 0 4px 8px oklch(0.4 0.03 55 / 0.05);
   --shadow-primary: 0 0 0 3px var(--color-primary-light);
   --shadow-soft: 0 0 0 3px var(--primary-soft);
 
