@@ -6,6 +6,7 @@ export const useMenuStore = defineStore('menu', () => {
     items: MOCK_MENU,
   })
   const menuItems = computed(() => menu.value.items)
+  const menuMobileItems = computed(() => menu.value.items.filter((item) => item.mobile))
   const childrenItems = computed(() => menu.value.items.flatMap((item) => item.children || []))
   const activeMenuItem = computed(() => {
     const route = useRoute()
@@ -17,6 +18,7 @@ export const useMenuStore = defineStore('menu', () => {
 
   return {
     menuItems,
+    menuMobileItems,
     childrenItems,
     activeMenuItem,
   }

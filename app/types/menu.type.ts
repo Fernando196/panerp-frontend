@@ -12,4 +12,5 @@ export interface IMenuItem {
   icon: Component
   type: 'item' | 'group'
   children?: IMenuItem[]
+  mobile?: boolean
 }

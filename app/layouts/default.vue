@@ -4,6 +4,7 @@
   import { useAuthStore } from '~/store/auth.store'
   import AsideMenu from '~/components/layout/AsideMenu.vue'
   import AppNavbar from '~/components/layout/AppNavbar.vue'
+  import MenuMobile from '~/components/layout/MenuMobile.vue'
 
   interface NavItem {
     label: string
@@ -54,11 +55,13 @@
       <!-- Main area -->
       <div class="flex min-w-0 flex-1 flex-col">
         <!-- Mobile top bar -->
-        <AppNavbar @on-click-menu="sidebarOpen = true" />
+        <AppNavbar class="hidden sm:flex" @on-click-menu="sidebarOpen = true" />
 
         <main class="flex-1 overflow-auto">
           <slot />
         </main>
+
+        <MenuMobile class="flex sm:hidden" />
       </div>
     </div>
   </div>

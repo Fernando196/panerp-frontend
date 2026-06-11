@@ -12,6 +12,7 @@ import {
   Truck,
   UserCogIcon,
   Users,
+  Settings,
 } from 'lucide-vue-next'
 import type { IMenuItem } from '~/types/menu.type'
 
@@ -22,6 +23,7 @@ export const MOCK_MENU: IMenuItem[] = [
     path: '/',
     icon: LayoutDashboard,
     type: 'item',
+    mobile: true,
   },
   {
     id: 2,
@@ -29,6 +31,7 @@ export const MOCK_MENU: IMenuItem[] = [
     path: '/inventario',
     icon: Package,
     type: 'item',
+    mobile: true,
   },
   {
     id: 3,
@@ -50,6 +53,7 @@ export const MOCK_MENU: IMenuItem[] = [
     path: '/productos',
     icon: ShoppingBag,
     type: 'item',
+    mobile: true,
   },
   {
     id: 6,
@@ -57,6 +61,7 @@ export const MOCK_MENU: IMenuItem[] = [
     path: '/charolas',
     icon: Grid3X3,
     type: 'item',
+    mobile: true,
   },
   {
     id: 7,
@@ -117,5 +122,13 @@ export const MOCK_MENU: IMenuItem[] = [
         icon: Users,
       },
     ],
+  },
+  {
+    id: 13,
+    label: 'Configuracion',
+    path: '/configuracion',
+    icon: Settings,
+    type: 'item',
+    mobile: true,
   },
 ]
