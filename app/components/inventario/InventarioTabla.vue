@@ -1,217 +1,172 @@
 <script setup lang="ts">
-  import {
-    Package,
-    RefreshCcw,
-    ArrowDownToLine,
-    SlidersHorizontal,
-    Pencil,
-    Trash2,
-  } from 'lucide-vue-next'
-  import type { IMateriaPrima } from '~/types/inventario.type'
-  import { formatNumber, formatMXN, formatFecha } from '~/utils/formatters'
+import { Package, ArrowDownToLine, SlidersHorizontal, Pencil, Trash2 } from 'lucide-vue-next'
+import type { IMateriaPrima } from '~/types/inventario.type'
+import { formatNumber, formatMXN } from '~/utils/formatters'
 
-  interface Props {
-    items: IMateriaPrima[]
-    loading: boolean
-    hayFiltros: boolean
-  }
+interface Props {
+  items: IMateriaPrima[]
+  loading: boolean
+  hayFiltros: boolean
+}
 
-  defineProps<Props>()
+defineProps<Props>()
 
-  const emit = defineEmits<{
-    entrada: [item: IMateriaPrima]
-    ajuste: [item: IMateriaPrima]
-    editar: [item: IMateriaPrima]
-    eliminar: [item: IMateriaPrima]
-  }>()
+const emit = defineEmits<{
+  entrada: [item: IMateriaPrima]
+  ajuste: [item: IMateriaPrima]
+  editar: [item: IMateriaPrima]
+  eliminar: [item: IMateriaPrima]
+}>()
 
-  function stockPct(item: IMateriaPrima): number {
-    const min = Number(item.stockMinimo)
-    if (!min) return 100
-    return Math.min(100, Math.round((Number(item.stockActual) / min) * 100))
-  }
+function stockPct(item: IMateriaPrima): number {
+  const min = Number(item.stockMinimo)
+  if (!min) return 100
+  return Math.min(100, Math.round((Number(item.stockActual) / min) * 100))
+}
 
-  function stockColor(item: IMateriaPrima): string {
-    const pct = stockPct(item)
-    if (pct <= 25) return 'bg-error'
-    if (pct <= 75) return 'bg-warning'
-    return 'bg-success'
-  }
+function stockStatus(item: IMateriaPrima): 'ok' | 'low' | 'empty' {
+  const actual = Number(item.stockActual)
+  const min = Number(item.stockMinimo)
+  if (actual <= 0) return 'empty'
+  if (actual <= min) return 'low'
+  return 'ok'
+}
 
-  function esBajoStock(item: IMateriaPrima): boolean {
-    return Number(item.stockActual) <= Number(item.stockMinimo)
-  }
+const statusConfig = {
+  ok: { bar: 'bg-success', dot: 'bg-success', label: 'OK', labelClass: 'text-success' },
+  low: { bar: 'bg-warning', dot: 'bg-warning', label: 'Stock bajo', labelClass: 'text-warning' },
+  empty: { bar: 'bg-error', dot: 'bg-error', label: 'Sin stock', labelClass: 'text-error' },
+}
 </script>
 
 <template>
-  <div class="overflow-hidden rounded-xl border border-slate-800">
-    <!-- Estado de carga -->
-    <div v-if="loading" class="flex items-center justify-center py-16 text-slate-500">
-      <RefreshCcw :size="20" class="mr-2 animate-spin" />
-      Cargando inventario...
-    </div>
-
-    <!-- Estado vacío -->
+  <!-- Skeletons de carga -->
+  <div v-if="loading" class="flex flex-col gap-2.5">
     <div
-      v-else-if="!items.length"
-      class="flex flex-col items-center justify-center gap-2 py-16 text-center"
-    >
-      <Package :size="32" class="text-slate-700" />
-      <p class="text-[14px] font-medium text-slate-500">Sin materias primas</p>
-      <p class="text-[13px] text-slate-600">
+      v-for="n in 4"
+      :key="n"
+      class="bg-surface border-border h-28 animate-pulse rounded-xl border"
+    />
+  </div>
+
+  <!-- Estado vacío -->
+  <div v-else-if="!items.length" class="flex flex-col items-center gap-3 py-16 text-center">
+    <div class="bg-muted-bg flex h-14 w-14 items-center justify-center rounded-2xl">
+      <Package :size="24" class="text-muted" />
+    </div>
+    <div>
+      <p class="text-text text-sm font-semibold">Sin materias primas</p>
+      <p class="text-muted mt-1 text-xs">
         {{ hayFiltros ? 'Prueba con otros filtros' : 'Agrega la primera materia prima' }}
       </p>
     </div>
-
-    <!-- Tabla -->
-    <div v-else class="overflow-x-auto">
-      <table class="w-full text-left">
-        <thead>
-          <tr class="border-b border-slate-800 bg-slate-900/50">
-            <th
-              class="px-4 py-3 text-[11.5px] font-semibold tracking-wider text-slate-500 uppercase"
-            >
-              Nombre
-            </th>
-            <th
-              class="px-4 py-3 text-[11.5px] font-semibold tracking-wider text-slate-500 uppercase"
-            >
-              Categoría
-            </th>
-            <th
-              class="px-4 py-3 text-[11.5px] font-semibold tracking-wider text-slate-500 uppercase"
-            >
-              Stock
-            </th>
-            <th
-              class="px-4 py-3 text-[11.5px] font-semibold tracking-wider text-slate-500 uppercase"
-            >
-              Costo / u
-            </th>
-            <th
-              class="hidden px-4 py-3 text-[11.5px] font-semibold tracking-wider text-slate-500 uppercase md:table-cell"
-            >
-              Ult. compra
-            </th>
-            <th
-              class="px-4 py-3 text-right text-[11.5px] font-semibold tracking-wider text-slate-500 uppercase"
-            >
-              Acciones
-            </th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-slate-800/60">
-          <tr v-for="item in items" :key="item.id" class="transition-colors hover:bg-slate-800/30">
-            <!-- Nombre -->
-            <td class="px-4 py-3">
-              <div class="flex items-center gap-2.5">
-                <div
-                  class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-800"
-                >
-                  <Package :size="14" class="text-slate-400" />
-                </div>
-                <div>
-                  <p class="text-[13px] font-medium text-white">{{ item.nombre }}</p>
-                  <p v-if="item.lugarCompra" class="text-[11.5px] text-slate-500">
-                    {{ item.lugarCompra }}
-                  </p>
-                </div>
-              </div>
-            </td>
-
-            <!-- Categoría -->
-            <td class="px-4 py-3">
-              <span
-                v-if="item.categoria"
-                class="rounded-full bg-slate-800 px-2.5 py-0.5 text-[11.5px] text-slate-300"
-              >
-                {{ item.categoria }}
-              </span>
-              <span v-else class="text-[13px] text-slate-600">—</span>
-            </td>
-
-            <!-- Stock con barra de progreso -->
-            <td class="px-4 py-3">
-              <div class="flex min-w-28 flex-col gap-1">
-                <div class="flex items-baseline justify-between gap-1">
-                  <span class="text-[13px] font-medium text-white">
-                    {{ formatNumber(item.stockActual) }}
-                    <span class="text-[11.5px] font-normal text-slate-400">{{
-                      item.unidadPrincipal
-                    }}</span>
-                  </span>
-                  <span
-                    class="text-[11px] font-medium"
-                    :class="esBajoStock(item) ? 'text-warning' : 'text-slate-500'"
-                  >
-                    mín {{ formatNumber(item.stockMinimo) }}
-                  </span>
-                </div>
-                <div class="h-1.5 w-full overflow-hidden rounded-full bg-slate-800">
-                  <div
-                    class="h-full rounded-full transition-all"
-                    :class="stockColor(item)"
-                    :style="{ width: `${stockPct(item)}%` }"
-                  />
-                </div>
-              </div>
-            </td>
-
-            <!-- Costo -->
-            <td class="px-4 py-3">
-              <span class="text-[13px] text-slate-300">{{ formatMXN(item.costoPorUnidad) }}</span>
-            </td>
-
-            <!-- Última compra -->
-            <td class="hidden px-4 py-3 md:table-cell">
-              <span class="text-[13px] text-slate-400">{{
-                formatFecha(item.fechaUltimaCompra)
-              }}</span>
-            </td>
-
-            <!-- Acciones -->
-            <td class="px-4 py-3">
-              <div class="flex items-center justify-end gap-1">
-                <button
-                  class="hover:bg-success/10 hover:text-success flex h-7 w-7 items-center justify-center rounded-lg text-slate-500 transition-colors"
-                  title="Registrar entrada"
-                  @click="emit('entrada', item)"
-                >
-                  <ArrowDownToLine :size="14" />
-                </button>
-
-                <button
-                  class="hover:bg-info/10 hover:text-info flex h-7 w-7 items-center justify-center rounded-lg text-slate-500 transition-colors"
-                  title="Ajustar stock"
-                  @click="emit('ajuste', item)"
-                >
-                  <SlidersHorizontal :size="14" />
-                </button>
-
-                <button
-                  class="flex h-7 w-7 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-700 hover:text-white"
-                  title="Editar"
-                  @click="emit('editar', item)"
-                >
-                  <Pencil :size="14" />
-                </button>
-
-                <button
-                  class="hover:bg-error/10 hover:text-error flex h-7 w-7 items-center justify-center rounded-lg text-slate-500 transition-colors"
-                  title="Eliminar"
-                  @click="emit('eliminar', item)"
-                >
-                  <Trash2 :size="14" />
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
   </div>
 
-  <p v-if="items.length" class="text-right text-[12px] text-slate-600">
-    {{ items.length }} registro{{ items.length !== 1 ? 's' : '' }}
-  </p>
+  <!-- Cards -->
+  <div v-else class="flex flex-col gap-2.5">
+    <div
+      v-for="item in items"
+      :key="item.id"
+      class="bg-surface border-border rounded-xl border p-4 shadow-xs"
+    >
+      <!-- Nombre + stock actual -->
+      <div class="flex items-start gap-3">
+        <!-- Ícono con dot de status -->
+        <div class="relative mt-0.5 shrink-0">
+          <div class="bg-muted-bg flex h-9 w-9 items-center justify-center rounded-xl">
+            <Package :size="15" class="text-muted" />
+          </div>
+          <span
+            class="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full ring-2 ring-white"
+            :class="statusConfig[stockStatus(item)].dot"
+          />
+        </div>
+
+        <div class="min-w-0 flex-1">
+          <div class="flex items-start justify-between gap-2">
+            <p class="text-text text-[13.5px] font-semibold leading-snug">{{ item.nombre }}</p>
+            <div class="shrink-0 text-right">
+              <p class="text-text text-[13px] font-bold">
+                {{ formatNumber(item.stockActual) }}
+                <span class="text-muted text-[11px] font-normal">{{ item.unidadPrincipal }}</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="mt-1 flex flex-wrap items-center gap-1.5">
+            <span
+              v-if="item.categoria"
+              class="border-border text-subtle rounded-full border px-2 py-0.5 text-[10px]"
+            >
+              {{ item.categoria }}
+            </span>
+            <span class="text-muted text-[10.5px]">
+              {{ formatMXN(item.costoPorUnidad) }}/{{ item.unidadPrincipal }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra de stock -->
+      <div class="mt-3.5">
+        <div class="mb-1.5 flex items-center justify-between">
+          <span class="text-muted text-[10.5px]">
+            Mín {{ formatNumber(item.stockMinimo) }} {{ item.unidadPrincipal }}
+          </span>
+          <span
+            class="text-[10.5px] font-medium"
+            :class="statusConfig[stockStatus(item)].labelClass"
+          >
+            {{ statusConfig[stockStatus(item)].label }}
+          </span>
+        </div>
+        <div class="bg-muted-bg h-1.5 w-full overflow-hidden rounded-full">
+          <div
+            class="h-full rounded-full transition-all duration-500"
+            :class="statusConfig[stockStatus(item)].bar"
+            :style="{ width: `${stockPct(item)}%` }"
+          />
+        </div>
+      </div>
+
+      <!-- Acciones -->
+      <div class="border-border mt-3 flex items-center border-t pt-2.5">
+        <button
+          class="text-success/70 flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:bg-success/10 hover:text-success"
+          title="Registrar entrada"
+          @click="emit('entrada', item)"
+        >
+          <ArrowDownToLine :size="15" />
+        </button>
+        <button
+          class="text-info/70 flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:bg-info/10 hover:text-info"
+          title="Ajustar stock"
+          @click="emit('ajuste', item)"
+        >
+          <SlidersHorizontal :size="15" />
+        </button>
+
+        <div class="ml-auto flex items-center gap-0.5">
+          <button
+            class="text-muted flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:bg-muted-bg hover:text-text"
+            title="Editar"
+            @click="emit('editar', item)"
+          >
+            <Pencil :size="15" />
+          </button>
+          <button
+            class="text-muted flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:bg-error/10 hover:text-error"
+            title="Eliminar"
+            @click="emit('eliminar', item)"
+          >
+            <Trash2 :size="15" />
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <p class="text-muted pb-2 text-center text-[11px]">
+      {{ items.length }} materia{{ items.length !== 1 ? 's primas' : ' prima' }}
+    </p>
+  </div>
 </template>
