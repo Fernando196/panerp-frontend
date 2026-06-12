@@ -34,9 +34,10 @@ function onSave() {
     cantidad: Number(form.cantidad),
     unidad: form.unidad.trim(),
     notas: form.notas.trim() || undefined,
-    costoUnitario: form.costoUnitario != null && form.costoUnitario !== undefined
-      ? Number(form.costoUnitario)
-      : undefined,
+    costoUnitario:
+      form.costoUnitario != null && form.costoUnitario !== undefined
+        ? Number(form.costoUnitario)
+        : undefined,
   }
   close(payload)
 }
@@ -44,16 +45,16 @@ function onSave() {
 
 <template>
   <div
-    class="relative flex max-h-[90vh] w-[min(440px,92vw)] flex-col rounded-xl border border-slate-700 bg-slate-900 shadow-2xl"
+    class="bg-surface border-border relative flex max-h-[90vh] w-[min(440px,92vw)] flex-col rounded-2xl border shadow-lg"
   >
     <!-- Header -->
-    <div class="flex shrink-0 items-center justify-between border-b border-slate-800 px-5 py-4">
+    <div class="border-border flex shrink-0 items-center justify-between border-b px-5 py-4">
       <div>
-        <h2 class="text-[15px] font-semibold text-white">Registrar movimiento</h2>
-        <p class="mt-0.5 text-[12px] text-slate-500">{{ item.nombre }}</p>
+        <h2 class="text-text text-[15px] font-semibold">Registrar movimiento</h2>
+        <p class="text-muted mt-0.5 text-[12px]">{{ item.nombre }}</p>
       </div>
       <button
-        class="flex h-7 w-7 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-800 hover:text-white"
+        class="text-muted hover:bg-muted-bg hover:text-text flex h-7 w-7 items-center justify-center rounded-lg transition-colors"
         @click="close(false)"
       >
         <X :size="15" />
@@ -62,16 +63,16 @@ function onSave() {
 
     <!-- Body -->
     <div class="min-h-0 flex-1 overflow-y-auto px-5 py-4">
-      <!-- Tipo selector (solo si no viene fijado) -->
-      <div v-if="!props.tipo" class="mb-4 grid grid-cols-3 gap-1.5 rounded-lg bg-slate-800 p-1">
+      <!-- Selector de tipo (solo si no viene fijado) -->
+      <div v-if="!props.tipo" class="bg-muted-bg mb-4 grid grid-cols-3 gap-1 rounded-xl p-1">
         <button
           v-for="t in ['entrada', 'ajuste', 'desperdicio'] as const"
           :key="t"
-          class="flex items-center justify-center gap-1.5 rounded-md py-1.5 text-[12px] font-medium transition-colors"
+          class="flex items-center justify-center gap-1.5 rounded-lg py-1.5 text-[12px] font-medium transition-colors"
           :class="
             tipoActivo === t
-              ? 'bg-slate-700 text-white shadow-sm'
-              : 'text-slate-400 hover:text-slate-200'
+              ? 'bg-surface text-text shadow-xs'
+              : 'text-subtle hover:text-text'
           "
           @click="tipoActivo = t"
         >
@@ -82,20 +83,20 @@ function onSave() {
         </button>
       </div>
 
-      <!-- Stock actual info -->
-      <div class="mb-4 flex items-center justify-between rounded-lg bg-slate-800/60 px-4 py-3">
-        <span class="text-[12px] text-slate-400">Stock actual</span>
-        <span class="text-[14px] font-semibold text-white">
+      <!-- Stock actual -->
+      <div class="bg-muted-bg border-border mb-4 flex items-center justify-between rounded-xl border px-4 py-3">
+        <span class="text-subtle text-[12px]">Stock actual</span>
+        <span class="text-text text-[14px] font-semibold">
           {{ Number(item.stockActual).toLocaleString('es-MX', { maximumFractionDigits: 2 }) }}
-          <span class="text-[12px] font-normal text-slate-400">{{ item.unidadPrincipal }}</span>
+          <span class="text-muted text-[12px] font-normal">{{ item.unidadPrincipal }}</span>
         </span>
       </div>
 
       <div class="flex flex-col gap-3.5">
         <!-- Cantidad + Unidad -->
         <div class="grid grid-cols-5 gap-3">
-          <div class="col-span-3 flex flex-col gap-1">
-            <label class="text-[12px] font-medium text-slate-400">
+          <div class="col-span-3 flex flex-col gap-1.5">
+            <label class="text-subtle text-[12px] font-medium">
               Cantidad <span class="text-error">*</span>
             </label>
             <input
@@ -103,57 +104,65 @@ function onSave() {
               type="number"
               min="0"
               step="0.01"
+              inputmode="decimal"
               placeholder="0"
-              class="rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-[13px] text-white placeholder-slate-600 outline-none transition-colors focus:border-primary"
+              class="border-border bg-subtle-bg text-text placeholder-muted focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] outline-none transition-colors"
             />
           </div>
-          <div class="col-span-2 flex flex-col gap-1">
-            <label class="text-[12px] font-medium text-slate-400">Unidad</label>
+          <div class="col-span-2 flex flex-col gap-1.5">
+            <label class="text-subtle text-[12px] font-medium">Unidad</label>
             <input
               v-model="form.unidad"
               type="text"
               placeholder="kg"
-              class="rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-[13px] text-white placeholder-slate-600 outline-none transition-colors focus:border-primary"
+              class="border-border bg-subtle-bg text-text placeholder-muted focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] outline-none transition-colors"
             />
           </div>
         </div>
 
         <!-- Costo unitario (solo entrada) -->
-        <div v-if="tipoActivo === 'entrada'" class="flex flex-col gap-1">
-          <label class="text-[12px] font-medium text-slate-400">Costo por unidad ($) <span class="text-slate-600">opcional</span></label>
+        <div v-if="tipoActivo === 'entrada'" class="flex flex-col gap-1.5">
+          <label class="text-subtle text-[12px] font-medium">
+            Costo por unidad ($)
+            <span class="text-muted font-normal">opcional</span>
+          </label>
           <input
             v-model="form.costoUnitario"
             type="number"
             min="0"
             step="0.01"
+            inputmode="decimal"
             placeholder="0.00"
-            class="rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-[13px] text-white placeholder-slate-600 outline-none transition-colors focus:border-primary"
+            class="border-border bg-subtle-bg text-text placeholder-muted focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] outline-none transition-colors"
           />
         </div>
 
         <!-- Notas -->
-        <div class="flex flex-col gap-1">
-          <label class="text-[12px] font-medium text-slate-400">Notas <span class="text-slate-600">opcional</span></label>
+        <div class="flex flex-col gap-1.5">
+          <label class="text-subtle text-[12px] font-medium">
+            Notas
+            <span class="text-muted font-normal">opcional</span>
+          </label>
           <textarea
             v-model="form.notas"
             rows="2"
             placeholder="Observaciones del movimiento..."
-            class="resize-none rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-[13px] text-white placeholder-slate-600 outline-none transition-colors focus:border-primary"
+            class="border-border bg-subtle-bg text-text placeholder-muted focus:border-primary resize-none rounded-xl border px-3 py-2.5 text-[13px] outline-none transition-colors"
           />
         </div>
       </div>
     </div>
 
     <!-- Footer -->
-    <div class="flex shrink-0 items-center justify-end gap-2 border-t border-slate-800 px-5 py-3.5">
+    <div class="border-border flex shrink-0 items-center justify-end gap-2 border-t px-5 py-3.5">
       <button
-        class="rounded-lg border border-slate-700 px-4 py-2 text-[13px] font-medium text-slate-400 transition-colors hover:border-slate-600 hover:text-white"
+        class="border-border text-subtle hover:border-border-strong hover:text-text rounded-xl border px-4 py-2 text-[13px] font-medium transition-colors"
         @click="close(false)"
       >
         Cancelar
       </button>
       <button
-        class="rounded-lg bg-primary px-4 py-2 text-[13px] font-medium text-white transition-colors hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-50"
+        class="bg-primary hover:bg-primary-dark rounded-xl px-4 py-2 text-[13px] font-medium text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
         :disabled="!isValid"
         @click="onSave"
       >

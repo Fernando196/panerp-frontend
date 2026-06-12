@@ -43,15 +43,15 @@ function onSave() {
 
 <template>
   <div
-    class="relative flex max-h-[90vh] w-[min(520px,92vw)] flex-col rounded-xl border border-slate-700 bg-slate-900 shadow-2xl"
+    class="bg-surface border-border relative flex max-h-[90vh] w-[min(520px,92vw)] flex-col rounded-2xl border shadow-lg"
   >
     <!-- Header -->
-    <div class="flex shrink-0 items-center justify-between border-b border-slate-800 px-5 py-4">
-      <h2 class="text-[15px] font-semibold text-white">
+    <div class="border-border flex shrink-0 items-center justify-between border-b px-5 py-4">
+      <h2 class="text-text text-[15px] font-semibold">
         {{ isEdit ? 'Editar materia prima' : 'Nueva materia prima' }}
       </h2>
       <button
-        class="flex h-7 w-7 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-800 hover:text-white"
+        class="text-muted hover:bg-muted-bg hover:text-text flex h-7 w-7 items-center justify-center rounded-lg transition-colors"
         @click="close(false)"
       >
         <X :size="15" />
@@ -60,27 +60,29 @@ function onSave() {
 
     <!-- Body -->
     <div class="min-h-0 flex-1 overflow-y-auto px-5 py-4">
-      <div class="grid grid-cols-2 gap-x-4 gap-y-3.5">
+      <div class="grid grid-cols-2 gap-x-4 gap-y-4">
         <!-- Nombre -->
-        <div class="col-span-2 flex flex-col gap-1">
-          <label class="text-[12px] font-medium text-slate-400">Nombre <span class="text-error">*</span></label>
+        <div class="col-span-2 flex flex-col gap-1.5">
+          <label class="text-subtle text-[12px] font-medium">
+            Nombre <span class="text-error">*</span>
+          </label>
           <input
             v-model="form.nombre"
             type="text"
             placeholder="Ej. Harina de trigo"
-            class="rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-[13px] text-white placeholder-slate-600 outline-none transition-colors focus:border-primary"
+            class="border-border bg-subtle-bg text-text placeholder-muted focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] outline-none transition-colors"
           />
         </div>
 
         <!-- Categoría -->
-        <div class="flex flex-col gap-1">
-          <label class="text-[12px] font-medium text-slate-400">Categoría</label>
+        <div class="flex flex-col gap-1.5">
+          <label class="text-subtle text-[12px] font-medium">Categoría</label>
           <input
             v-model="form.categoria"
             type="text"
             list="categorias-list"
             placeholder="Ej. Harinas"
-            class="rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-[13px] text-white placeholder-slate-600 outline-none transition-colors focus:border-primary"
+            class="border-border bg-subtle-bg text-text placeholder-muted focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] outline-none transition-colors"
           />
           <datalist id="categorias-list">
             <option v-for="cat in categorias" :key="cat" :value="cat" />
@@ -88,88 +90,93 @@ function onSave() {
         </div>
 
         <!-- Lugar de compra -->
-        <div class="flex flex-col gap-1">
-          <label class="text-[12px] font-medium text-slate-400">Lugar de compra</label>
+        <div class="flex flex-col gap-1.5">
+          <label class="text-subtle text-[12px] font-medium">Lugar de compra</label>
           <input
             v-model="form.lugarCompra"
             type="text"
             placeholder="Ej. Bodega Aurrerá"
-            class="rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-[13px] text-white placeholder-slate-600 outline-none transition-colors focus:border-primary"
+            class="border-border bg-subtle-bg text-text placeholder-muted focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] outline-none transition-colors"
           />
         </div>
 
         <!-- Unidad principal -->
-        <div class="flex flex-col gap-1">
-          <label class="text-[12px] font-medium text-slate-400">Unidad principal <span class="text-error">*</span></label>
+        <div class="flex flex-col gap-1.5">
+          <label class="text-subtle text-[12px] font-medium">
+            Unidad <span class="text-error">*</span>
+          </label>
           <input
             v-model="form.unidadPrincipal"
             type="text"
-            placeholder="Ej. kg, L, pza"
-            class="rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-[13px] text-white placeholder-slate-600 outline-none transition-colors focus:border-primary"
+            placeholder="kg, L, pza"
+            class="border-border bg-subtle-bg text-text placeholder-muted focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] outline-none transition-colors"
           />
         </div>
 
         <!-- Costo por unidad -->
-        <div class="flex flex-col gap-1">
-          <label class="text-[12px] font-medium text-slate-400">Costo por unidad ($)</label>
+        <div class="flex flex-col gap-1.5">
+          <label class="text-subtle text-[12px] font-medium">Costo por unidad ($)</label>
           <input
             v-model="form.costoPorUnidad"
             type="number"
             min="0"
             step="0.01"
+            inputmode="decimal"
             placeholder="0.00"
-            class="rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-[13px] text-white placeholder-slate-600 outline-none transition-colors focus:border-primary"
+            class="border-border bg-subtle-bg text-text placeholder-muted focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] outline-none transition-colors"
           />
         </div>
 
-        <!-- Stock inicial (solo en creación) -->
-        <div v-if="!isEdit" class="flex flex-col gap-1">
-          <label class="text-[12px] font-medium text-slate-400">Stock inicial</label>
+        <!-- Stock inicial (solo creación) -->
+        <div v-if="!isEdit" class="flex flex-col gap-1.5">
+          <label class="text-subtle text-[12px] font-medium">Stock inicial</label>
           <input
             v-model="form.stockActual"
             type="number"
             min="0"
             step="0.01"
+            inputmode="decimal"
             placeholder="0"
-            class="rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-[13px] text-white placeholder-slate-600 outline-none transition-colors focus:border-primary"
+            class="border-border bg-subtle-bg text-text placeholder-muted focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] outline-none transition-colors"
           />
         </div>
 
         <!-- Stock mínimo -->
-        <div class="flex flex-col gap-1">
-          <label class="text-[12px] font-medium text-slate-400">Stock mínimo</label>
+        <div class="flex flex-col gap-1.5">
+          <label class="text-subtle text-[12px] font-medium">Stock mínimo</label>
           <input
             v-model="form.stockMinimo"
             type="number"
             min="0"
             step="0.01"
+            inputmode="decimal"
             placeholder="0"
-            class="rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-[13px] text-white placeholder-slate-600 outline-none transition-colors focus:border-primary"
+            class="border-border bg-subtle-bg text-text placeholder-muted focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] outline-none transition-colors"
           />
         </div>
 
         <!-- Fecha de caducidad -->
-        <div class="flex flex-col gap-1" :class="isEdit ? 'col-span-2' : ''">
-          <label class="text-[12px] font-medium text-slate-400">Fecha de caducidad</label>
+        <div class="flex flex-col gap-1.5" :class="isEdit ? 'col-span-2' : ''">
+          <label class="text-subtle text-[12px] font-medium">Fecha de caducidad</label>
           <input
             v-model="form.fechaCaducidad"
             type="date"
-            class="rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-[13px] text-white outline-none transition-colors focus:border-primary"
+            class="border-border bg-subtle-bg text-text focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] outline-none transition-colors"
           />
         </div>
       </div>
     </div>
 
     <!-- Footer -->
-    <div class="flex shrink-0 items-center justify-end gap-2 border-t border-slate-800 px-5 py-3.5">
+    <div class="border-border flex shrink-0 items-center justify-end gap-2 border-t px-5 py-3.5">
       <button
-        class="rounded-lg border border-slate-700 px-4 py-2 text-[13px] font-medium text-slate-400 transition-colors hover:border-slate-600 hover:text-white"
+        class="border-border text-subtle hover:border-border-strong hover:text-text rounded-xl border px-4 py-2 text-[13px] font-medium transition-colors"
         @click="close(false)"
       >
         Cancelar
       </button>
       <button
-        class="rounded-lg bg-primary px-4 py-2 text-[13px] font-medium text-white transition-colors hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-50"
+        class="bg-primary hover:bg-primary-dark rounded-xl px-4 py-2 text-[13px] font-medium text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
         :disabled="!isValid"
         @click="onSave"
       >
