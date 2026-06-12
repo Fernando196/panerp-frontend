@@ -1,25 +1,23 @@
 <script setup lang="ts">
-  import { Plus, AlertTriangle, X } from 'lucide-vue-next'
-  import { useInventarioStore } from '~/store/inventario.store'
-  import { useAuthStore } from '~/store/auth.store'
-  import PageHeader from '~/components/ui/PageHeader.vue'
+import { Plus } from 'lucide-vue-next'
+import { useInventarioStore } from '~/store/inventario.store'
+import PageHeader from '~/components/ui/PageHeader.vue'
 
-  const store = useInventarioStore()
-  const auth = useAuthStore()
+const store = useInventarioStore()
 
-  const { search, categoria, soloStockBajo, hayFiltros, clearFiltros } = useInventarioFiltros()
-  const { errorMsg, handleCreate, handleEdit, handleEntrada, handleAjuste, handleDelete } =
-    useInventarioAcciones()
+const { search, categoria, soloStockBajo, hayFiltros, clearFiltros } = useInventarioFiltros()
+const { handleCreate, handleEdit, handleEntrada, handleAjuste, handleDelete } =
+  useInventarioAcciones()
 
-  await store.fetch()
+await store.fetch()
 </script>
 
 <template>
-  <div class="w-full px-5 py-4 md:p-7">
+  <div class="flex flex-col gap-4 px-4 py-4 pb-28 md:px-7 md:py-6">
     <PageHeader title="Inventario" subtitle="Materias primas y suministros">
       <template #right>
         <button
-          class="btn btn-primary btn-sm inline-flex items-center gap-1.5"
+          class="btn btn-primary btn-sm hidden items-center gap-1.5 md:inline-flex"
           @click="handleCreate"
         >
           <Plus :size="13" />
@@ -28,28 +26,13 @@
       </template>
     </PageHeader>
 
-    <!-- KPIs -->
     <InventarioKpis
-      class="mt-3"
       :total-items="store.items.length"
       :stock-bajo-count="store.stockBajoCount"
       :valor-total="store.valorTotal"
     />
 
-    <!-- Error global -->
-    <!-- <div
-      v-if="errorMsg"
-      class="border-error/30 bg-error/10 text-error flex items-center gap-2 rounded-lg border px-4 py-3 text-[13px]"
-    >
-      <AlertTriangle :size="14" />
-      {{ errorMsg }}
-      <button class="ml-auto" @click="errorMsg = ''">
-        <X :size="13" />
-      </button>
-    </div> -->
-
-    <!-- Filtros -->
-    <!-- <InventarioFiltros
+    <InventarioFiltros
       v-model:search="search"
       v-model:categoria="categoria"
       v-model:solo-stock-bajo="soloStockBajo"
@@ -58,10 +41,9 @@
       :loading="store.loading"
       @clear="clearFiltros"
       @refresh="store.fetch()"
-    /> -->
+    />
 
-    <!-- Tabla -->
-    <!-- <InventarioTabla
+    <InventarioTabla
       :items="store.items"
       :loading="store.loading"
       :hay-filtros="hayFiltros"
@@ -69,6 +51,14 @@
       @ajuste="handleAjuste"
       @editar="handleEdit"
       @eliminar="handleDelete"
-    /> -->
+    />
   </div>
+
+  <!-- FAB móvil -->
+  <button
+    class="bg-primary hover:bg-primary-dark fixed bottom-20 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full text-white shadow-lg transition-all active:scale-95 md:hidden"
+    @click="handleCreate"
+  >
+    <Plus :size="22" />
+  </button>
 </template>
