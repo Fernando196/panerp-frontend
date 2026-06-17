@@ -15,6 +15,15 @@ export const useAuthStore = defineStore('auth', () => {
   const isAuthenticated = computed(() => !!token.value)
   const rol = computed(() => user.value?.rol?.nombre ?? '')
 
+  const isAdmin = computed(() => rol.value === 'administrador')
+  const isProduccion = computed(() => rol.value === 'produccion')
+  const isRepartidor = computed(() => rol.value === 'repartidor')
+  const isContabilidad = computed(() => rol.value === 'contabilidad')
+
+  function authHeaders(): Record<string, string> {
+    return token.value ? { Authorization: `Bearer ${token.value}` } : {}
+  }
+
   function setToken(newToken: string) {
     token.value = newToken
   }
@@ -40,6 +49,11 @@ export const useAuthStore = defineStore('auth', () => {
     user,
     isAuthenticated,
     rol,
+    isAdmin,
+    isProduccion,
+    isRepartidor,
+    isContabilidad,
+    authHeaders,
     setUser,
     setToken,
     logout,
