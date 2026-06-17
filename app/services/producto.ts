@@ -12,7 +12,7 @@ export const ProductoService = () => {
 
   return {
     async getAll(params?: { search?: string; categoria?: string }) {
-      return $api<ApiResponse<IProducto[]>>('/api/v1/productos', {
+      return $api<ApiResponse<IProducto[]>>('/productos', {
         method: 'GET',
         headers: auth.authHeaders(),
         query: params,
@@ -20,7 +20,7 @@ export const ProductoService = () => {
     },
 
     async create(dto: ICreateProducto) {
-      return $api<ApiResponse<IProducto>>('/api/v1/productos', {
+      return $api<ApiResponse<IProducto>>('/productos', {
         method: 'POST',
         headers: auth.authHeaders(),
         body: dto,
@@ -28,7 +28,7 @@ export const ProductoService = () => {
     },
 
     async update(id: string, dto: Partial<ICreateProducto>) {
-      return $api<ApiResponse<IProducto>>(`/api/v1/productos/${id}`, {
+      return $api<ApiResponse<IProducto>>(`/productos/${id}`, {
         method: 'PUT',
         headers: auth.authHeaders(),
         body: dto,
@@ -36,7 +36,7 @@ export const ProductoService = () => {
     },
 
     async remove(id: string) {
-      return $api(`/api/v1/productos/${id}`, {
+      return $api(`/productos/${id}`, {
         method: 'DELETE',
         headers: auth.authHeaders(),
       })

@@ -12,7 +12,7 @@ export const ProduccionService = () => {
 
   return {
     async getAll(params?: { search?: string; estado?: string }) {
-      return $api<ApiResponse<IProduccion[]>>('/api/v1/produccion', {
+      return $api<ApiResponse<IProduccion[]>>('/produccion', {
         method: 'GET',
         headers: auth.authHeaders(),
         query: params,
@@ -20,7 +20,7 @@ export const ProduccionService = () => {
     },
 
     async create(dto: ICreateProduccion) {
-      return $api<ApiResponse<IProduccion>>('/api/v1/produccion', {
+      return $api<ApiResponse<IProduccion>>('/produccion', {
         method: 'POST',
         headers: auth.authHeaders(),
         body: dto,
@@ -28,14 +28,14 @@ export const ProduccionService = () => {
     },
 
     async completar(id: string) {
-      return $api<ApiResponse<IProduccion>>(`/api/v1/produccion/${id}/completar`, {
+      return $api<ApiResponse<IProduccion>>(`/produccion/${id}/completar`, {
         method: 'POST',
         headers: auth.authHeaders(),
       })
     },
 
     async cancelar(id: string) {
-      return $api<ApiResponse<IProduccion>>(`/api/v1/produccion/${id}/cancelar`, {
+      return $api<ApiResponse<IProduccion>>(`/produccion/${id}/cancelar`, {
         method: 'POST',
         headers: auth.authHeaders(),
       })

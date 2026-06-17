@@ -17,7 +17,7 @@ export const InventarioService = () => {
 
   return {
     async getAll(params?: { search?: string; categoria?: string; stockBajo?: string }) {
-      return $api<ApiResponse<IMateriaPrima[]>>('/api/v1/inventario', {
+      return $api<ApiResponse<IMateriaPrima[]>>('/inventario', {
         method: 'GET',
         headers: auth.authHeaders(),
         query: params,
@@ -25,7 +25,7 @@ export const InventarioService = () => {
     },
 
     async create(dto: ICreateMateriaPrima) {
-      return $api<ApiResponse<IMateriaPrima>>('/api/v1/inventario', {
+      return $api<ApiResponse<IMateriaPrima>>('/inventario', {
         method: 'POST',
         headers: auth.authHeaders(),
         body: dto,
@@ -33,7 +33,7 @@ export const InventarioService = () => {
     },
 
     async update(id: string, dto: Partial<ICreateMateriaPrima>) {
-      return $api<ApiResponse<IMateriaPrima>>(`/api/v1/inventario/${id}`, {
+      return $api<ApiResponse<IMateriaPrima>>(`/inventario/${id}`, {
         method: 'PUT',
         headers: auth.authHeaders(),
         body: dto,
@@ -41,7 +41,7 @@ export const InventarioService = () => {
     },
 
     async remove(id: string) {
-      return $api(`/api/v1/inventario/${id}`, {
+      return $api(`/inventario/${id}`, {
         method: 'DELETE',
         headers: auth.authHeaders(),
       })
@@ -49,21 +49,21 @@ export const InventarioService = () => {
 
     async entrada(id: string, dto: IMovimientoInput) {
       return $api<ApiResponse<{ mp: IMateriaPrima; movimiento: IMovimientoInventario }>>(
-        `/api/v1/inventario/${id}/entrada`,
+        `/inventario/${id}/entrada`,
         { method: 'POST', headers: auth.authHeaders(), body: dto },
       )
     },
 
     async ajuste(id: string, dto: IMovimientoInput) {
       return $api<ApiResponse<{ mp: IMateriaPrima; movimiento: IMovimientoInventario }>>(
-        `/api/v1/inventario/${id}/ajuste`,
+        `/inventario/${id}/ajuste`,
         { method: 'POST', headers: auth.authHeaders(), body: dto },
       )
     },
 
     async movimientos(id: string, limit = 50) {
       return $api<ApiResponse<IMovimientoInventario[]>>(
-        `/api/v1/inventario/${id}/movimientos`,
+        `/inventario/${id}/movimientos`,
         { headers: auth.authHeaders(), query: { limit } },
       )
     },

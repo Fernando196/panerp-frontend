@@ -12,7 +12,7 @@ export const RecetaService = () => {
 
   return {
     async getAll(params?: { search?: string }) {
-      return $api<ApiResponse<IReceta[]>>('/api/v1/recetas', {
+      return $api<ApiResponse<IReceta[]>>('/recetas', {
         method: 'GET',
         headers: auth.authHeaders(),
         query: params,
@@ -20,7 +20,7 @@ export const RecetaService = () => {
     },
 
     async create(dto: ICreateReceta) {
-      return $api<ApiResponse<IReceta>>('/api/v1/recetas', {
+      return $api<ApiResponse<IReceta>>('/recetas', {
         method: 'POST',
         headers: auth.authHeaders(),
         body: dto,
@@ -28,7 +28,7 @@ export const RecetaService = () => {
     },
 
     async update(id: string, dto: Partial<ICreateReceta>) {
-      return $api<ApiResponse<IReceta>>(`/api/v1/recetas/${id}`, {
+      return $api<ApiResponse<IReceta>>(`/recetas/${id}`, {
         method: 'PUT',
         headers: auth.authHeaders(),
         body: dto,
@@ -36,7 +36,7 @@ export const RecetaService = () => {
     },
 
     async remove(id: string) {
-      return $api(`/api/v1/recetas/${id}`, {
+      return $api(`/recetas/${id}`, {
         method: 'DELETE',
         headers: auth.authHeaders(),
       })

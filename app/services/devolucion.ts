@@ -12,7 +12,7 @@ export const DevolucionService = () => {
 
   return {
     async getAll(params?: { search?: string; clienteId?: string }) {
-      return $api<ApiResponse<IDevolucion[]>>('/api/v1/devoluciones', {
+      return $api<ApiResponse<IDevolucion[]>>('/devoluciones', {
         method: 'GET',
         headers: auth.authHeaders(),
         query: params,
@@ -20,7 +20,7 @@ export const DevolucionService = () => {
     },
 
     async create(dto: ICreateDevolucion) {
-      return $api<ApiResponse<IDevolucion>>('/api/v1/devoluciones', {
+      return $api<ApiResponse<IDevolucion>>('/devoluciones', {
         method: 'POST',
         headers: auth.authHeaders(),
         body: dto,

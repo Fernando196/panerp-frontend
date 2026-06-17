@@ -12,7 +12,7 @@ export const ClienteService = () => {
 
   return {
     async getAll(params?: { search?: string }) {
-      return $api<ApiResponse<ICliente[]>>('/api/v1/clientes', {
+      return $api<ApiResponse<ICliente[]>>('/clientes', {
         method: 'GET',
         headers: auth.authHeaders(),
         query: params,
@@ -20,7 +20,7 @@ export const ClienteService = () => {
     },
 
     async create(dto: ICreateCliente) {
-      return $api<ApiResponse<ICliente>>('/api/v1/clientes', {
+      return $api<ApiResponse<ICliente>>('/clientes', {
         method: 'POST',
         headers: auth.authHeaders(),
         body: dto,
@@ -28,7 +28,7 @@ export const ClienteService = () => {
     },
 
     async update(id: string, dto: Partial<ICreateCliente>) {
-      return $api<ApiResponse<ICliente>>(`/api/v1/clientes/${id}`, {
+      return $api<ApiResponse<ICliente>>(`/clientes/${id}`, {
         method: 'PUT',
         headers: auth.authHeaders(),
         body: dto,
@@ -36,7 +36,7 @@ export const ClienteService = () => {
     },
 
     async remove(id: string) {
-      return $api(`/api/v1/clientes/${id}`, {
+      return $api(`/clientes/${id}`, {
         method: 'DELETE',
         headers: auth.authHeaders(),
       })

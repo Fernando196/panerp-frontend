@@ -12,7 +12,7 @@ export const CharolaService = () => {
 
   return {
     async getAll(params?: { search?: string; estado?: string }) {
-      return $api<ApiResponse<ICharola[]>>('/api/v1/charolas', {
+      return $api<ApiResponse<ICharola[]>>('/charolas', {
         method: 'GET',
         headers: auth.authHeaders(),
         query: params,
@@ -20,7 +20,7 @@ export const CharolaService = () => {
     },
 
     async create(dto: ICreateCharola) {
-      return $api<ApiResponse<ICharola>>('/api/v1/charolas', {
+      return $api<ApiResponse<ICharola>>('/charolas', {
         method: 'POST',
         headers: auth.authHeaders(),
         body: dto,
@@ -28,7 +28,7 @@ export const CharolaService = () => {
     },
 
     async update(id: string, dto: Partial<ICreateCharola>) {
-      return $api<ApiResponse<ICharola>>(`/api/v1/charolas/${id}`, {
+      return $api<ApiResponse<ICharola>>(`/charolas/${id}`, {
         method: 'PUT',
         headers: auth.authHeaders(),
         body: dto,
@@ -36,14 +36,14 @@ export const CharolaService = () => {
     },
 
     async remove(id: string) {
-      return $api(`/api/v1/charolas/${id}`, {
+      return $api(`/charolas/${id}`, {
         method: 'DELETE',
         headers: auth.authHeaders(),
       })
     },
 
     async asignar(id: string, dto: IAsignarCharolaInput) {
-      return $api<ApiResponse<ICharola>>(`/api/v1/charolas/${id}/asignar`, {
+      return $api<ApiResponse<ICharola>>(`/charolas/${id}/asignar`, {
         method: 'POST',
         headers: auth.authHeaders(),
         body: dto,
@@ -51,7 +51,7 @@ export const CharolaService = () => {
     },
 
     async liberar(id: string) {
-      return $api<ApiResponse<ICharola>>(`/api/v1/charolas/${id}/liberar`, {
+      return $api<ApiResponse<ICharola>>(`/charolas/${id}/liberar`, {
         method: 'POST',
         headers: auth.authHeaders(),
       })

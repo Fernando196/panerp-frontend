@@ -12,7 +12,7 @@ export const EntregaService = () => {
 
   return {
     async getAll(params?: { search?: string; estado?: string; clienteId?: string }) {
-      return $api<ApiResponse<IEntrega[]>>('/api/v1/entregas', {
+      return $api<ApiResponse<IEntrega[]>>('/entregas', {
         method: 'GET',
         headers: auth.authHeaders(),
         query: params,
@@ -20,7 +20,7 @@ export const EntregaService = () => {
     },
 
     async create(dto: ICreateEntrega) {
-      return $api<ApiResponse<IEntrega>>('/api/v1/entregas', {
+      return $api<ApiResponse<IEntrega>>('/entregas', {
         method: 'POST',
         headers: auth.authHeaders(),
         body: dto,
@@ -28,7 +28,7 @@ export const EntregaService = () => {
     },
 
     async cancelar(id: string) {
-      return $api<ApiResponse<IEntrega>>(`/api/v1/entregas/${id}/cancelar`, {
+      return $api<ApiResponse<IEntrega>>(`/entregas/${id}/cancelar`, {
         method: 'POST',
         headers: auth.authHeaders(),
       })

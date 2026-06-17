@@ -12,7 +12,7 @@ export const ReporteService = () => {
 
   return {
     async getResumen(params?: { desde?: string; hasta?: string }) {
-      return $api<ApiResponse<IReporteResumen>>('/api/v1/reportes/resumen', {
+      return $api<ApiResponse<IReporteResumen>>('/reportes/resumen', {
         method: 'GET',
         headers: auth.authHeaders(),
         query: params,
