@@ -17,21 +17,20 @@ export function useInventarioAcciones() {
     try {
       return await fn()
     } catch (e) {
-      errorMsg.value =
-        (e as { data?: { message?: string } })?.data?.message ?? 'Error inesperado'
+      errorMsg.value = (e as { data?: { message?: string } })?.data?.message ?? 'Error inesperado'
     } finally {
       saving.value = false
     }
   }
 
   async function handleCreate() {
-    const result = await openModal(MateriaPrimaFormModal, { categorias: store.categorias })
+    const result = await openModal(MateriaPrimaFormModal)
     if (!result) return
     await withSave(() => store.create(result))
   }
 
   async function handleEdit(item: IMateriaPrima) {
-    const result = await openModal(MateriaPrimaFormModal, { item, categorias: store.categorias })
+    const result = await openModal(MateriaPrimaFormModal, { item })
     if (!result) return
     await withSave(() => store.update(item.id, result))
   }

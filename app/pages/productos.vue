@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { Plus } from 'lucide-vue-next'
-import { useProductoStore } from '~/store/producto.store'
-import PageHeader from '~/components/ui/PageHeader.vue'
+  import { Plus } from 'lucide-vue-next'
+  import { useProductoStore } from '~/store/producto.store'
+  import PageHeader from '~/components/ui/PageHeader.vue'
 
-const store = useProductoStore()
+  const store = useProductoStore()
 
-const { search, categoria, soloActivos, hayFiltros, clearFiltros } = useProductoFiltros()
-const { handleCreate, handleEdit, handleDelete } = useProductoAcciones()
+  const { search, categoria, soloActivos, hayFiltros, clearFiltros } = useProductoFiltros()
+  const { handleCreate, handleEdit, handleDelete } = useProductoAcciones()
 
-const itemsFiltrados = computed(() =>
-  soloActivos.value ? store.items.filter((x) => x.activo) : store.items,
-)
+  const itemsFiltrados = computed(() =>
+    soloActivos.value ? store.items.filter((x) => x.activo) : store.items
+  )
 
-await store.fetch()
+  await store.fetch()
 </script>
 
 <template>
@@ -57,7 +57,7 @@ await store.fetch()
 
   <!-- FAB móvil -->
   <button
-    class="bg-primary hover:bg-primary-dark fixed bottom-20 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full text-white shadow-lg transition-all active:scale-95 md:hidden"
+    class="bg-primary hover:bg-primary-dark fixed right-4 bottom-20 z-40 flex h-14 w-14 items-center justify-center rounded-full text-white shadow-lg transition-all active:scale-95 md:hidden"
     @click="handleCreate"
   >
     <Plus :size="22" />

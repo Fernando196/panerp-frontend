@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { Plus } from 'lucide-vue-next'
-import { useCharolaStore } from '~/store/charola.store'
-import PageHeader from '~/components/ui/PageHeader.vue'
+  import { Plus } from 'lucide-vue-next'
+  import { useCharolaStore } from '~/store/charola.store'
+  import PageHeader from '~/components/ui/PageHeader.vue'
 
-const store = useCharolaStore()
+  const store = useCharolaStore()
 
-const { search, estado, hayFiltros, clearFiltros } = useCharolaFiltros()
-const { handleCreate, handleEdit, handleDelete, handleAsignar, handleLiberar } =
-  useCharolaAcciones()
+  const { search, estado, hayFiltros, clearFiltros } = useCharolaFiltros()
+  const { handleCreate, handleEdit, handleDelete, handleAsignar, handleLiberar } =
+    useCharolaAcciones()
 
-await store.fetch()
+  await store.fetch()
 </script>
 
 <template>
@@ -54,7 +54,7 @@ await store.fetch()
 
   <!-- FAB móvil -->
   <button
-    class="bg-primary hover:bg-primary-dark fixed bottom-20 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full text-white shadow-lg transition-all active:scale-95 md:hidden"
+    class="bg-primary hover:bg-primary-dark fixed right-4 bottom-20 z-40 flex h-14 w-14 items-center justify-center rounded-full text-white shadow-lg transition-all active:scale-95 md:hidden"
     @click="handleCreate"
   >
     <Plus :size="22" />

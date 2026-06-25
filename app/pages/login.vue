@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import { WifiOff, Wheat } from 'lucide-vue-next'
   import LoginForm from '~/components/auth/LoginForm.vue'
-  import { useLogin } from '~/composables/auth/useLogin'
   import { useAuthStore } from '~/store/auth.store'
   import type { ICredentials } from '~/types/auth/auth.type'
 

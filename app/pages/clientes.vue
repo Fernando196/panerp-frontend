@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import { Plus } from 'lucide-vue-next'
-import { useClienteStore } from '~/store/cliente.store'
-import PageHeader from '~/components/ui/PageHeader.vue'
+  import { Plus } from 'lucide-vue-next'
+  import { useClienteStore } from '~/store/cliente.store'
 
-const store = useClienteStore()
+  const store = useClienteStore()
 
-const { search, conSaldo, hayFiltros, itemsFiltrados, clearFiltros } = useClienteFiltros()
-const { handleCreate, handleEdit, handleDelete } = useClienteAcciones()
+  const { search, conSaldo, hayFiltros, itemsFiltrados, clearFiltros } = useClienteFiltros()
+  const { handleCreate, handleEdit, handleDelete } = useClienteAcciones()
 
-await store.fetch()
+  await store.fetch()
 </script>
 
 <template>
@@ -51,7 +50,7 @@ await store.fetch()
 
   <!-- FAB móvil -->
   <button
-    class="bg-primary hover:bg-primary-dark fixed bottom-20 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full text-white shadow-lg transition-all active:scale-95 md:hidden"
+    class="bg-primary hover:bg-primary-dark fixed right-4 bottom-20 z-40 flex h-14 w-14 items-center justify-center rounded-full text-white shadow-lg transition-all active:scale-95 md:hidden"
     @click="handleCreate"
   >
     <Plus :size="22" />

@@ -1,5 +1,4 @@
-import type { IUserRole } from "~/types/user-role.type"
-
+import type { IUserRole } from '~/types/user-role.type'
 
 export const CatalogService = () => {
   const { $api } = useNuxtApp()
@@ -7,6 +6,9 @@ export const CatalogService = () => {
   return {
     async getUserRoles(): Promise<IUserRole[]> {
       return await $api<IUserRole[]>('/catalogos/user-roles', { method: 'GET' })
+    },
+    async getCatalogoMateriasPrimas(): Promise<IUserRole[]> {
+      return await $api<IUserRole[]>('/catalogos/materia-prima', { method: 'GET' })
     },
   }
 }

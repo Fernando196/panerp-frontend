@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { Plus } from 'lucide-vue-next'
-import { useEntregaStore } from '~/store/entrega.store'
-import PageHeader from '~/components/ui/PageHeader.vue'
+  import { Plus } from 'lucide-vue-next'
+  import { useEntregaStore } from '~/store/entrega.store'
+  import PageHeader from '~/components/ui/PageHeader.vue'
 
-const store = useEntregaStore()
+  const store = useEntregaStore()
 
-const { search, estado, hayFiltros, clearFiltros } = useEntregaFiltros()
-const { handleCreate, handleCancelar } = useEntregaAcciones()
+  const { search, estado, hayFiltros, clearFiltros } = useEntregaFiltros()
+  const { handleCreate, handleCancelar } = useEntregaAcciones()
 
-await store.fetch()
+  await store.fetch()
 </script>
 
 <template>
@@ -50,7 +50,7 @@ await store.fetch()
 
   <!-- FAB móvil -->
   <button
-    class="bg-primary hover:bg-primary-dark fixed bottom-20 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full text-white shadow-lg transition-all active:scale-95 md:hidden"
+    class="bg-primary hover:bg-primary-dark fixed right-4 bottom-20 z-40 flex h-14 w-14 items-center justify-center rounded-full text-white shadow-lg transition-all active:scale-95 md:hidden"
     @click="handleCreate"
   >
     <Plus :size="22" />

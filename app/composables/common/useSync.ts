@@ -1,5 +1,5 @@
 import { useLocalStorage } from '@vueuse/core'
-import { useOffline } from './useOffline'
+import { useOffline } from './common/useOffline'
 
 interface SyncOperation {
   id: string

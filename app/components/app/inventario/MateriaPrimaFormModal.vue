@@ -1,44 +1,45 @@
 <script setup lang="ts">
-import { X } from 'lucide-vue-next'
-import type { IMateriaPrima, ICreateMateriaPrima } from '~/types/inventario.type'
+  import { X } from 'lucide-vue-next'
+  import { useCatalogStore } from '~/store/catalog.store'
+  import type { IMateriaPrima, ICreateMateriaPrima } from '~/types/inventario.type'
 
-interface Props {
-  item?: IMateriaPrima
-  categorias?: string[]
-}
-
-const props = defineProps<Props>()
-const { close } = useModal()
-
-const isEdit = computed(() => !!props.item?.id)
-
-const form = reactive<ICreateMateriaPrima>({
-  nombre: props.item?.nombre ?? '',
-  categoria: props.item?.categoria ?? '',
-  lugarCompra: props.item?.lugarCompra ?? '',
-  unidadPrincipal: props.item?.unidadPrincipal ?? '',
-  costoPorUnidad: props.item?.costoPorUnidad ?? 0,
-  stockActual: props.item?.stockActual ?? 0,
-  stockMinimo: props.item?.stockMinimo ?? 0,
-  fechaCaducidad: props.item?.fechaCaducidad ?? '',
-})
-
-const isValid = computed(() => !!form.nombre.trim() && !!form.unidadPrincipal.trim())
-
-function onSave() {
-  if (!isValid.value) return
-  const payload: ICreateMateriaPrima = {
-    nombre: form.nombre.trim(),
-    unidadPrincipal: form.unidadPrincipal.trim(),
-    costoPorUnidad: Number(form.costoPorUnidad),
-    stockActual: Number(form.stockActual),
-    stockMinimo: Number(form.stockMinimo),
+  interface Props {
+    item?: IMateriaPrima
   }
-  if (form.categoria?.trim()) payload.categoria = form.categoria.trim()
-  if (form.lugarCompra?.trim()) payload.lugarCompra = form.lugarCompra.trim()
-  if (form.fechaCaducidad) payload.fechaCaducidad = form.fechaCaducidad
-  close(payload)
-}
+
+  const storeCatalog = useCatalogStore()
+  const props = defineProps<Props>()
+  const { close } = useModal()
+
+  const isEdit = computed(() => !!props.item?.id)
+
+  const form = reactive<ICreateMateriaPrima>({
+    nombre: props.item?.nombre ?? '',
+    categoria: props.item?.categoria ?? '',
+    lugarCompra: props.item?.lugarCompra ?? '',
+    unidadPrincipal: props.item?.unidadPrincipal ?? '',
+    costoPorUnidad: props.item?.costoPorUnidad ?? 0,
+    stockActual: props.item?.stockActual ?? 0,
+    stockMinimo: props.item?.stockMinimo ?? 0,
+    fechaCaducidad: props.item?.fechaCaducidad ?? '',
+  })
+
+  const isValid = computed(() => !!form.nombre.trim() && !!form.unidadPrincipal.trim())
+
+  function onSave() {
+    if (!isValid.value) return
+    const payload: ICreateMateriaPrima = {
+      nombre: form.nombre.trim(),
+      unidadPrincipal: form.unidadPrincipal.trim(),
+      costoPorUnidad: Number(form.costoPorUnidad),
+      stockActual: Number(form.stockActual),
+      stockMinimo: Number(form.stockMinimo),
+    }
+    if (form.categoria?.trim()) payload.categoria = form.categoria.trim()
+    if (form.lugarCompra?.trim()) payload.lugarCompra = form.lugarCompra.trim()
+    if (form.fechaCaducidad) payload.fechaCaducidad = form.fechaCaducidad
+    close(payload)
+  }
 </script>
 
 <template>
@@ -70,7 +71,7 @@ function onSave() {
             v-model="form.nombre"
             type="text"
             placeholder="Ej. Harina de trigo"
-            class="border-border bg-subtle-bg text-text placeholder-muted focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] outline-none transition-colors"
+            class="border-border bg-subtle-bg text-text placeholder-muted focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] transition-colors outline-none"
           />
         </div>
 
@@ -82,7 +83,7 @@ function onSave() {
             type="text"
             list="categorias-list"
             placeholder="Ej. Harinas"
-            class="border-border bg-subtle-bg text-text placeholder-muted focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] outline-none transition-colors"
+            class="border-border bg-subtle-bg text-text placeholder-muted focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] transition-colors outline-none"
           />
           <datalist id="categorias-list">
             <option v-for="cat in categorias" :key="cat" :value="cat" />
@@ -96,7 +97,7 @@ function onSave() {
             v-model="form.lugarCompra"
             type="text"
             placeholder="Ej. Bodega Aurrerá"
-            class="border-border bg-subtle-bg text-text placeholder-muted focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] outline-none transition-colors"
+            class="border-border bg-subtle-bg text-text placeholder-muted focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] transition-colors outline-none"
           />
         </div>
 
@@ -109,7 +110,7 @@ function onSave() {
             v-model="form.unidadPrincipal"
             type="text"
             placeholder="kg, L, pza"
-            class="border-border bg-subtle-bg text-text placeholder-muted focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] outline-none transition-colors"
+            class="border-border bg-subtle-bg text-text placeholder-muted focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] transition-colors outline-none"
           />
         </div>
 
@@ -123,7 +124,7 @@ function onSave() {
             step="0.01"
             inputmode="decimal"
             placeholder="0.00"
-            class="border-border bg-subtle-bg text-text placeholder-muted focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] outline-none transition-colors"
+            class="border-border bg-subtle-bg text-text placeholder-muted focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] transition-colors outline-none"
           />
         </div>
 
@@ -137,7 +138,7 @@ function onSave() {
             step="0.01"
             inputmode="decimal"
             placeholder="0"
-            class="border-border bg-subtle-bg text-text placeholder-muted focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] outline-none transition-colors"
+            class="border-border bg-subtle-bg text-text placeholder-muted focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] transition-colors outline-none"
           />
         </div>
 
@@ -151,7 +152,7 @@ function onSave() {
             step="0.01"
             inputmode="decimal"
             placeholder="0"
-            class="border-border bg-subtle-bg text-text placeholder-muted focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] outline-none transition-colors"
+            class="border-border bg-subtle-bg text-text placeholder-muted focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] transition-colors outline-none"
           />
         </div>
 
@@ -161,7 +162,7 @@ function onSave() {
           <input
             v-model="form.fechaCaducidad"
             type="date"
-            class="border-border bg-subtle-bg text-text focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] outline-none transition-colors"
+            class="border-border bg-subtle-bg text-text focus:border-primary rounded-xl border px-3 py-2.5 text-[13px] transition-colors outline-none"
           />
         </div>
       </div>

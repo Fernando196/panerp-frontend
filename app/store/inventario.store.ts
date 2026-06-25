@@ -15,7 +15,8 @@ export const useInventarioStore = defineStore('inventario', () => {
       const res = await service.getAll(params)
       items.value = res.data
     } catch (e) {
-      error.value = (e as { data?: { message?: string } })?.data?.message ?? 'Error al cargar el inventario'
+      error.value =
+        (e as { data?: { message?: string } })?.data?.message ?? 'Error al cargar el inventario'
     } finally {
       loading.value = false
     }
@@ -52,15 +53,11 @@ export const useInventarioStore = defineStore('inventario', () => {
   }
 
   const stockBajoCount = computed(
-    () => items.value.filter((x) => Number(x.stockActual) <= Number(x.stockMinimo)).length,
+    () => items.value.filter((x) => Number(x.stockActual) <= Number(x.stockMinimo)).length
   )
 
   const valorTotal = computed(() =>
-    items.value.reduce((sum, x) => sum + Number(x.stockActual) * Number(x.costoPorUnidad), 0),
-  )
-
-  const categorias = computed(
-    () => [...new Set(items.value.map((x) => x.categoria).filter(Boolean))] as string[],
+    items.value.reduce((sum, x) => sum + Number(x.stockActual) * Number(x.costoPorUnidad), 0)
   )
 
   return {
@@ -75,6 +72,5 @@ export const useInventarioStore = defineStore('inventario', () => {
     registrarAjuste,
     stockBajoCount,
     valorTotal,
-    categorias,
   }
 })

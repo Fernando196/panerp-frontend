@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { Plus } from 'lucide-vue-next'
-import { useDevolucionStore } from '~/store/devolucion.store'
-import { useEntregaStore } from '~/store/entrega.store'
-import PageHeader from '~/components/ui/PageHeader.vue'
+  import { Plus } from 'lucide-vue-next'
+  import { useDevolucionStore } from '~/store/devolucion.store'
+  import { useEntregaStore } from '~/store/entrega.store'
+  import PageHeader from '~/components/ui/PageHeader.vue'
 
-const store = useDevolucionStore()
-const entregaStore = useEntregaStore()
+  const store = useDevolucionStore()
+  const entregaStore = useEntregaStore()
 
-const { search, hayFiltros } = useDevolucionFiltros()
-const { handleCreate } = useDevolucionAcciones()
+  const { search, hayFiltros } = useDevolucionFiltros()
+  const { handleCreate } = useDevolucionAcciones()
 
-await Promise.all([store.fetch(), entregaStore.fetch()])
+  await Promise.all([store.fetch(), entregaStore.fetch()])
 </script>
 
 <template>
@@ -33,18 +33,14 @@ await Promise.all([store.fetch(), entregaStore.fetch()])
       :entregas-pendientes="entregaStore.pendientes.length"
     />
 
-    <DevolucionFiltros
-      v-model:search="search"
-      :loading="store.loading"
-      @refresh="store.fetch()"
-    />
+    <DevolucionFiltros v-model:search="search" :loading="store.loading" @refresh="store.fetch()" />
 
     <DevolucionTabla :items="store.items" :loading="store.loading" :hay-filtros="hayFiltros" />
   </div>
 
   <!-- FAB móvil -->
   <button
-    class="bg-primary hover:bg-primary-dark fixed bottom-20 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full text-white shadow-lg transition-all active:scale-95 md:hidden"
+    class="bg-primary hover:bg-primary-dark fixed right-4 bottom-20 z-40 flex h-14 w-14 items-center justify-center rounded-full text-white shadow-lg transition-all active:scale-95 md:hidden"
     @click="handleCreate"
   >
     <Plus :size="22" />

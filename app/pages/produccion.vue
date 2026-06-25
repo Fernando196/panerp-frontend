@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { Plus } from 'lucide-vue-next'
-import { useProduccionStore } from '~/store/produccion.store'
-import PageHeader from '~/components/ui/PageHeader.vue'
+  import { Plus } from 'lucide-vue-next'
+  import { useProduccionStore } from '~/store/produccion.store'
+  import PageHeader from '~/components/ui/PageHeader.vue'
 
-const store = useProduccionStore()
+  const store = useProduccionStore()
 
-const { search, estado, hayFiltros, clearFiltros } = useProduccionFiltros()
-const { handleCreate, handleCompletar, handleCancelar } = useProduccionAcciones()
+  const { search, estado, hayFiltros, clearFiltros } = useProduccionFiltros()
+  const { handleCreate, handleCompletar, handleCancelar } = useProduccionAcciones()
 
-await store.fetch()
+  await store.fetch()
 </script>
 
 <template>
@@ -51,7 +51,7 @@ await store.fetch()
 
   <!-- FAB móvil -->
   <button
-    class="bg-primary hover:bg-primary-dark fixed bottom-20 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full text-white shadow-lg transition-all active:scale-95 md:hidden"
+    class="bg-primary hover:bg-primary-dark fixed right-4 bottom-20 z-40 flex h-14 w-14 items-center justify-center rounded-full text-white shadow-lg transition-all active:scale-95 md:hidden"
     @click="handleCreate"
   >
     <Plus :size="22" />

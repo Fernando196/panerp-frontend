@@ -5,6 +5,9 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   modules: ['@nuxt/eslint', 'dayjs-nuxt', '@pinia/nuxt', '@vueuse/nuxt', '@vite-pwa/nuxt'],
+  imports: {
+    dirs: ['composables', 'composables/**'],
+  },
   pinia: {
     storesDirs: ['./app/store/**'],
   },
@@ -51,9 +54,7 @@ export default defineNuxtConfig({
       display: 'standalone',
       orientation: 'portrait-primary',
       start_url: '/',
-      icons: [
-        { src: '/favicon.ico', sizes: '64x64', type: 'image/x-icon' },
-      ],
+      icons: [{ src: '/favicon.ico', sizes: '64x64', type: 'image/x-icon' }],
     },
     workbox: {
       navigateFallback: '/',
@@ -62,12 +63,19 @@ export default defineNuxtConfig({
         {
           urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
           handler: 'CacheFirst',
-          options: { cacheName: 'google-fonts-cache', expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 } },
+          options: {
+            cacheName: 'google-fonts-cache',
+            expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 },
+          },
         },
         {
           urlPattern: /^http:\/\/localhost:3001\/api\/.*/i,
           handler: 'NetworkFirst',
-          options: { cacheName: 'api-cache', expiration: { maxEntries: 100, maxAgeSeconds: 60 * 5 }, networkTimeoutSeconds: 5 },
+          options: {
+            cacheName: 'api-cache',
+            expiration: { maxEntries: 100, maxAgeSeconds: 60 * 5 },
+            networkTimeoutSeconds: 5,
+          },
         },
       ],
     },
